@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Game Tap To Earn</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
-            background-color: #0f172a; /* Nền xanh đen tối màu cực ngầu */
-            color: #22c55e; /* Chữ xanh lá Hacker */
+            background-color: #0f172a;
+            color: #22c55e;
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
@@ -18,7 +19,8 @@
             overflow: hidden;
             user-select: none;
         }
-        .header { font-size: 22px; font-weight: bold; color: #ffffff; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;}
+        .header { font-size: 22px; font-weight: bold; color: #ffffff; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px;}
+        .username { font-size: 16px; color: #94a3b8; margin-bottom: 20px;}
         .score-container { font-size: 55px; font-weight: bold; margin-bottom: 50px; text-shadow: 0 0 15px #22c55e; }
         .coin {
             width: 220px;
@@ -33,7 +35,6 @@
             cursor: pointer;
             transition: transform 0.05s;
         }
-        /* Hiệu ứng khi bấm ngón tay vào đồng xu */
         .coin:active { 
             transform: scale(0.93); 
             box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4), inset 0 0 10px rgba(255,255,255,0.2); 
@@ -43,6 +44,7 @@
 <body>
 
     <div class="header">HỆ THỐNG ĐÀO XU</div>
+    <div class="username" id="playerName">Đang tải radar...</div>
     <div class="score-container" id="scoreDisplay">0</div>
     
     <div class="coin" id="coinButton">⚡</div>
@@ -51,20 +53,39 @@
         let score = 0;
         const scoreDisplay = document.getElementById('scoreDisplay');
         const coinButton = document.getElementById('coinButton');
+        const playerNameDisplay = document.getElementById('playerName');
 
-        // CHỖ NÀY ĐỂ TRỐNG: Lát nữa ta sẽ nhúng Link API Backend vào đây!
-        const api_url = "CHUA_CO_LINK_BACKEND"; 
+        // Bật radar Telegram
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand(); // Ép game hiển thị full màn hình
+        
+        // Quét lấy Tên và ID của người chơi
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        const tg_id = user ? user.id : '123456';
+        const tg_name = user ? user.first_name : 'Khách Ẩn Danh';
+        
+        playerNameDisplay.innerText = "Thợ mỏ: " + tg_name;
 
-        // Khi người chơi chạm vào đồng xu
+        // ==========================================
+        // MẢNH GHÉP 2: DÁN LINK API BACKEND VÀO ĐÂY
+        // ==========================================
+        const api_url = "DÁN_LINK_BACKEND_CỦA_BẠN_VÀO_ĐÂY";
+
+        // Xử lý khi bấm đồng xu
         coinButton.addEventListener('click', () => {
-            // Rung điện thoại nhẹ một cái (nếu điện thoại hỗ trợ)
             if (navigator.vibrate) navigator.vibrate(40);
             
-            // Cộng điểm ngay lập tức trên màn hình cho mượt
+            // 1. Cộng điểm hiển thị trên màn hình
             score++;
             scoreDisplay.innerText = score;
 
-            // (Phần gửi tín hiệu ngầm về Backend sẽ thêm ở bước sau)
+            // 2. Bắn tín hiệu ngầm về Dạ dày D1
+            if (api_url !== "DÁN_LINK_BACKEND_CỦA_BẠN_VÀO_ĐÂY") {
+                fetch(api_url + "?id=" + tg_id + "&name=" + tg_name, {
+                    method: "GET",
+                    mode: "no-cors"
+                }).catch(err => console.log("Lỗi mạng"));
+            }
         });
     </script>
 </body>
