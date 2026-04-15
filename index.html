@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Game Tap To Earn</title>
+    <style>
+        body {
+            background-color: #0f172a; /* Nền xanh đen tối màu cực ngầu */
+            color: #22c55e; /* Chữ xanh lá Hacker */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+        .header { font-size: 22px; font-weight: bold; color: #ffffff; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;}
+        .score-container { font-size: 55px; font-weight: bold; margin-bottom: 50px; text-shadow: 0 0 15px #22c55e; }
+        .coin {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, #fbbf24, #b45309);
+            border-radius: 50%;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.6), inset 0 0 20px rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            cursor: pointer;
+            transition: transform 0.05s;
+        }
+        /* Hiệu ứng khi bấm ngón tay vào đồng xu */
+        .coin:active { 
+            transform: scale(0.93); 
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4), inset 0 0 10px rgba(255,255,255,0.2); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">HỆ THỐNG ĐÀO XU</div>
+    <div class="score-container" id="scoreDisplay">0</div>
+    
+    <div class="coin" id="coinButton">⚡</div>
+
+    <script>
+        let score = 0;
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const coinButton = document.getElementById('coinButton');
+
+        // CHỖ NÀY ĐỂ TRỐNG: Lát nữa ta sẽ nhúng Link API Backend vào đây!
+        const api_url = "CHUA_CO_LINK_BACKEND"; 
+
+        // Khi người chơi chạm vào đồng xu
+        coinButton.addEventListener('click', () => {
+            // Rung điện thoại nhẹ một cái (nếu điện thoại hỗ trợ)
+            if (navigator.vibrate) navigator.vibrate(40);
+            
+            // Cộng điểm ngay lập tức trên màn hình cho mượt
+            score++;
+            scoreDisplay.innerText = score;
+
+            // (Phần gửi tín hiệu ngầm về Backend sẽ thêm ở bước sau)
+        });
+    </script>
+</body>
+</html>
