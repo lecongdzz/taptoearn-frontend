@@ -3,263 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Game Đào Coin</title>
+<title>Game Đào Coin VIP</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  body { 
-    background-color: #0f172a; 
-    color: white; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    height: 100vh; 
-    margin: 0; 
-    overflow: hidden; 
-    user-select: none;
-  }
+  body { background-color: #0f172a; color: white; font-family: sans-serif; margin: 0; overflow: hidden; user-select: none; }
+  .screen { display: none; flex-direction: column; align-items: center; justify-content: flex-start; height: 90vh; padding-top: 20px; overflow-y: auto; padding-bottom: 80px;}
+  .screen.active { display: flex; }
   
-  #balance { 
-    font-size: 3.5rem; 
-    font-weight: 900; 
-    color: #facc15; 
-    text-shadow: 0 0 20px rgba(250, 204, 21, 0.7); 
-    margin-bottom: 40px; 
-    letter-spacing: 2px;
-  }
-
-  #coin { 
-    width: 220px; 
-    height: 220px; 
-    background: radial-gradient(circle, #fde047 0%, #ca8a04 80%); 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 6rem; 
-    color: #854d0e; 
-    font-weight: bold; 
-    box-shadow: 0 15px 35px rgba(234, 179, 8, 0.4), inset 0 -10px 20px rgba(133, 77, 14, 0.5); 
-    transition: transform 0.05s; 
-    position: relative;
-  }
-  #coin:active { transform: scale(0.92); box-shadow: 0 5px 15px rgba(234, 179, 8, 0.4); }
-
-  .progress-container { 
-    width: 85%; 
-    background: #1e293b; 
-    border-radius: 20px; 
-    margin-top: 50px; 
-    height: 25px; 
-    border: 3px solid #334155; 
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-  }
-  .progress-bar { 
-    width: 100%; 
-    height: 100%; 
-    background: linear-gradient(90deg, #eab308, #facc15); 
-    border-radius: 15px; 
-    transition: width 0.2s; 
-  }
-  #energy-text { 
-    margin-top: 15px; 
-    font-weight: bold; 
-    color: #fbd38d; 
-    font-size: 1.2rem;
-  }
-
-  /* Nút Chém Gió VVIP */
-  .community-btn {
-    margin-top: 30px; 
-    background: #2563eb; 
-    color: white; 
-    border: none; 
-    padding: 15px 40px; 
-    font-size: 1.2rem; 
-    font-weight: 900; 
-    border-radius: 12px; 
-    cursor: pointer; 
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
-    transition: transform 0.1s, background 0.2s;
-  }
-  .community-btn:active { 
-    transform: scale(0.92); 
-    background: #1d4ed8;
-  }
-
-  #modal { 
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.85); 
-    z-index: 1000; 
-    align-items: center; justify-content: center; 
-    backdrop-filter: blur(5px);
-  }
-  .modal-content { 
-    background: #1e293b; 
-    border: 2px solid #eab308; 
-    border-radius: 25px; 
-    padding: 30px 20px; 
-    text-align: center; 
-    width: 85%; max-width: 350px; 
-    box-shadow: 0 0 40px rgba(234, 179, 8, 0.3); 
-    animation: popUp 0.3s ease-out;
-  }
-  @keyframes popUp { 0% { transform: scale(0.8); opacity: 0;} 100% { transform: scale(1); opacity: 1;} }
-  .modal-content h2 { color: #f8fafc; margin-top: 0; font-size: 1.6rem; }
-  .modal-content p { color: #cbd5e1; font-size: 1.1rem; }
-  .earned-amount { font-size: 2.5rem; color: #facc15; font-weight: bold; margin: 20px 0; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
-  .claim-btn { 
-    background: linear-gradient(180deg, #fde047 0%, #eab308 100%); 
-    color: #000; border: none; padding: 15px 40px; font-size: 1.3rem; 
-    font-weight: 900; border-radius: 15px; cursor: pointer; width: 90%; 
-    box-shadow: 0 5px 15px rgba(234, 179, 8, 0.4);
-  }
-  .claim-btn:active { transform: scale(0.95); }
-
-  .float-text {
-    position: absolute; color: white; font-size: 2rem; font-weight: bold; pointer-events: none;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
-    animation: floatUp 0.6s ease-out forwards;
-  }
-  @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-70px); } }
+  /* Thanh Menu Dưới Đáy */
+  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 2px solid #334155; z-index: 100; }
+  .nav-item { color: #94a3b8; font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+  .nav-item.active { color: #facc15; }
+  
+  /* Nút Đào Xu */
+  #coin { width: 200px; height: 200px; background: radial-gradient(circle, #fde047 0%, #ca8a04 80%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5rem; color: #854d0e; font-weight: bold; box-shadow: 0 15px 35px rgba(234, 179, 8, 0.4); margin-top: 40px;}
+  #coin:active { transform: scale(0.95); box-shadow: 0 5px 15px rgba(234, 179, 8, 0.4); }
+  
+  /* Các Form & Bảng */
+  .card { background: #1e293b; width: 85%; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #334155; }
+  .card h3 { color: #facc15; margin-top: 0; text-align: center; }
+  input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; background: #334155; color: white; font-weight: bold;}
+  .btn { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; background: #2563eb; color: white; margin-top: 10px;}
+  .btn-gold { background: linear-gradient(90deg, #eab308, #facc15); color: black; }
+  
+  #balance { font-size: 3rem; font-weight: 900; color: #facc15; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); margin-bottom: 20px;}
+  .stats-row { display: flex; justify-content: space-between; width: 85%; margin-top: 20px; font-weight: bold; color: #cbd5e1;}
+  
+  /* Leaderboard */
+  .top-user { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #334155; }
+  .top-1 { color: #facc15; font-size: 1.2rem; font-weight: bold;}
+  .top-2 { color: #94a3b8; font-weight: bold;}
+  .top-3 { color: #b45309; font-weight: bold;}
 </style>
 </head>
 <body>
-
-<div id="balance">Đang tải...</div>
-
-<div id="coin">$</div>
-
-<div class="progress-container">
-  <div class="progress-bar" id="energy-bar"></div>
+<div id="screen-tap" class="screen active">
+  <div id="balance">Đang tải...</div>
+  <div class="stats-row"><span>🪙 Vàng: <span id="gold-bal">0</span></span> <span>VND: <span id="vnd-bal">0đ</span></span></div>
+  <div id="coin">$</div>
+  <div style="width: 85%; height: 20px; background: #1e293b; border-radius: 10px; margin-top: 40px; border: 2px solid #334155;">
+    <div id="energy-bar" style="height: 100%; background: #facc15; border-radius: 8px; width: 100%;"></div>
+  </div>
+  <div style="margin-top: 10px; font-weight: bold;">⚡ <span id="energy-text">1000/1000</span></div>
 </div>
-<div id="energy-text">⚡ ... / ...</div>
 
-<button class="community-btn" onclick="tg.openTelegramLink('https://t.me/+N_tRE_tAY8JhZTBl')">
-  💬 Tham Gia Nhóm Chém Gió
-</button>
-
-<div id="modal">
-  <div class="modal-content">
-    <h2>Chào mừng trở lại! 🥳</h2>
-    <p>Máy cày tự động đã kiếm được:</p>
-    <div class="earned-amount">+<span id="offline-coins">0</span> xu</div>
-    <button class="claim-btn" onclick="closeModal()">Nhận Xu</button>
+<div id="screen-bank" class="screen">
+  <div class="card">
+    <h3>🎁 Nhập Giftcode</h3>
+    <input type="text" id="giftcode-input" placeholder="Nhập mã code...">
+    <button class="btn btn-gold" onclick="alert('Đang chờ API cập nhật')">Nhận Thưởng</button>
+  </div>
+  <div class="card">
+    <h3>🏦 Nạp Tiền (Mua Vàng/Coin)</h3>
+    <p style="font-size: 0.9rem; color: #94a3b8;">Chuyển khoản theo cú pháp bên dưới để tự động cộng tiền.</p>
+    <div style="background: white; padding: 10px; border-radius: 10px; text-align: center; color: black; font-weight: bold;">
+      MB BANK<br>STK: 0358613334<br>Tên: LE THANH CONG
+    </div>
+    <p style="text-align: center; color: #facc15; font-weight: bold; font-size: 1.1rem; border: 1px dashed #facc15; padding: 10px; margin-top: 10px;">ND: <span id="transfer-note">Đang tải...</span></p>
+    <button class="btn" onclick="alert('Bấm Nạp tiền xong nhớ gửi ảnh cho Sếp duyệt nhé!')">Đã Chuyển Khoản</button>
+  </div>
+  <div class="card">
+    <h3>💸 Rút Tiền (Min: 4M Coin = 2k)</h3>
+    <input type="text" placeholder="Tên Ngân Hàng (VD: MB BANK)">
+    <input type="text" placeholder="Số Tài Khoản">
+    <input type="text" placeholder="TÊN CHỦ TK (KHÔNG DẤU)">
+    <input type="number" placeholder="Số Coin muốn rút">
+    <button class="btn btn-gold" onclick="alert('Đang chờ API kết nối')">Tạo Lệnh Rút</button>
   </div>
 </div>
 
+<div id="screen-shop" class="screen">
+  <div class="card">
+    <h3>🔄 Quy Đổi</h3>
+    <p>1,000 Coin ⇌ 100 Vàng</p>
+    <button class="btn">Đổi Coin sang Vàng</button>
+    <button class="btn">Đổi Vàng sang Coin</button>
+  </div>
+  <div class="card">
+    <h3>🚀 Máy Đào Tự Động</h3>
+    <p>Giá: 100 Vàng</p>
+    <p style="font-size: 0.9rem; color: #94a3b8;">Tăng tốc độ cày ngầm khi thoát game.</p>
+    <button class="btn btn-gold" onclick="alert('Đang chờ API nâng cấp')">Mua Máy Đào</button>
+  </div>
+</div>
+
+<div id="screen-top" class="screen">
+  <h2 style="color: #facc15;">🏆 BẢNG XẾP HẠNG TOP 10</h2>
+  <div class="card" style="padding: 10px;" id="leaderboard-list">
+    <div class="top-user top-1"><span>🥇 Sếp Tổng</span> <span>9,999,999</span></div>
+    <div class="top-user top-2"><span>🥈 Đại Gia 1</span> <span>5,000,000</span></div>
+    <div class="top-user top-3"><span>🥉 Dân Cày 2</span> <span>4,000,000</span></div>
+    <div class="top-user"><span>🏅 Member 3</span> <span>1,000,000</span></div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="nav('tap', this)">⛏<br>Đào Xu</div>
+  <div class="nav-item" onclick="nav('shop', this)">🛒<br>Cửa Hàng</div>
+  <div class="nav-item" onclick="nav('bank', this)">🏦<br>Ngân Hàng</div>
+  <div class="nav-item" onclick="nav('top', this)">🏆<br>Đua Top</div>
+</div>
 <script>
-  const API_URL = "https://taptoearn-backend.congle4443.workers.dev"; 
   const tg = window.Telegram.WebApp;
   tg.expand();
 
-  let balance = 0;
-  let energy = 1000;
-  let maxEnergy = 1000;
-  let tapLevel = 1;
-  let tg_id = "nguoi_choi_test";
-  let tg_name = "Guest";
-  let initData = "";
-
+  // Tạo nội dung chuyển khoản theo Username + ID
+  let tg_id = "000"; let tg_name = "User";
   if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
       tg_id = tg.initDataUnsafe.user.id.toString();
       tg_name = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name;
-      initData = tg.initData;
+  }
+  document.getElementById('transfer-note').innerText = `NAP ${tg_name} ${tg_id}`;
+
+  // Hàm chuyển Tab Menu
+  function nav(screenId, element) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('screen-' + screenId).classList.add('active');
+    element.classList.add('active');
   }
 
-  function updateUI() {
-      document.getElementById('balance').innerText = Math.floor(balance).toLocaleString('vi-VN');
-      document.getElementById('energy-text').innerText = `⚡ ${Math.floor(energy)} / ${maxEnergy}`;
-      document.getElementById('energy-bar').style.width = `${(energy / maxEnergy) * 100}%`;
-  }
-
-  async function syncData() {
-      try {
-          const res = await fetch(API_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ action: "sync", tg_id, tg_name, initData })
-          });
-          const data = await res.json();
-          if (data.success) {
-              balance = data.user.balance;
-              energy = data.user.energy;
-              maxEnergy = data.user.max_energy;
-              tapLevel = data.user.tap_level || 1;
-              
-              if (data.idle_earned && data.idle_earned > 0) {
-                  document.getElementById('offline-coins').innerText = Math.floor(data.idle_earned).toLocaleString('vi-VN');
-                  document.getElementById('modal').style.display = 'flex';
-              }
-              updateUI();
-          }
-      } catch (e) {
-          console.error("Lỗi đồng bộ:", e);
-      }
-  }
-
-  function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-      if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-  }
-
-  let tapTimeout;
-  let tapCount = 0;
-
+  // Animation Đập Xu (Logic tạm để UI mượt)
+  let balance = 1500000;
+  document.getElementById('balance').innerText = balance.toLocaleString('vi-VN');
+  
   document.getElementById('coin').addEventListener('pointerdown', (e) => {
-      if (energy >= tapLevel) {
-          energy -= tapLevel;
-          balance += tapLevel; 
-          tapCount += tapLevel;
-          updateUI();
-          
-          if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-
-          const floatText = document.createElement('div');
-          floatText.className = 'float-text';
-          floatText.innerText = `+${tapLevel}`;
-          floatText.style.left = `${e.clientX - 15}px`;
-          floatText.style.top = `${e.clientY - 20}px`;
-          document.body.appendChild(floatText);
-          setTimeout(() => floatText.remove(), 600);
-
-          clearTimeout(tapTimeout);
-          tapTimeout = setTimeout(sendTaps, 800);
-      }
+      if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+      balance++;
+      document.getElementById('balance').innerText = balance.toLocaleString('vi-VN');
   });
-
-  async function sendTaps() {
-      if (tapCount === 0) return;
-      const currentTaps = tapCount;
-      tapCount = 0;
-      try {
-          const res = await fetch(API_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ action: "tap", taps: currentTaps, tg_id, tg_name, initData })
-          });
-          const data = await res.json();
-          if (data.success) {
-              balance = data.user.balance;
-              energy = data.user.energy;
-              updateUI();
-          }
-      } catch (e) {
-          console.error("Lỗi gửi xu:", e);
-      }
-  }
-
-  setInterval(() => {
-      if (energy < maxEnergy) {
-          energy += 1;
-          updateUI();
-      }
-  }, 1000);
-
-  syncData();
 </script>
 </body>
 </html>
