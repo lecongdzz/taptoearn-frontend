@@ -69,21 +69,24 @@
     font-size: 1.2rem;
   }
 
-  /* Nút Chém Gió */
+  /* Nút Chém Gió VVIP */
   .community-btn {
     margin-top: 30px; 
     background: #2563eb; 
     color: white; 
     border: none; 
-    padding: 12px 30px; 
-    font-size: 1.1rem; 
-    font-weight: bold; 
-    border-radius: 10px; 
+    padding: 15px 40px; 
+    font-size: 1.2rem; 
+    font-weight: 900; 
+    border-radius: 12px; 
     cursor: pointer; 
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
-    transition: transform 0.1s;
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+    transition: transform 0.1s, background 0.2s;
   }
-  .community-btn:active { transform: scale(0.95); }
+  .community-btn:active { 
+    transform: scale(0.92); 
+    background: #1d4ed8;
+  }
 
   #modal { 
     display: none; 
@@ -135,7 +138,7 @@
 </div>
 <div id="energy-text">⚡ ... / ...</div>
 
-<button class="community-btn" onclick="window.open('https://t.me/+N_tRE_tAY8JhZTBl', '_blank')">
+<button class="community-btn" onclick="tg.openTelegramLink('https://t.me/+N_tRE_tAY8JhZTBl')">
   💬 Tham Gia Nhóm Chém Gió
 </button>
 
