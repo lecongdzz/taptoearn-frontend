@@ -7,7 +7,7 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   body { 
-    background-color: #0f172a; /* Nền xanh đen cực ngầu */
+    background-color: #0f172a; 
     color: white; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     display: flex; 
@@ -20,7 +20,6 @@
     user-select: none;
   }
   
-  /* Số dư phát sáng */
   #balance { 
     font-size: 3.5rem; 
     font-weight: 900; 
@@ -30,7 +29,6 @@
     letter-spacing: 2px;
   }
 
-  /* Nút đập xu vàng chói lóa */
   #coin { 
     width: 220px; 
     height: 220px; 
@@ -48,7 +46,6 @@
   }
   #coin:active { transform: scale(0.92); box-shadow: 0 5px 15px rgba(234, 179, 8, 0.4); }
 
-  /* Thanh năng lượng */
   .progress-container { 
     width: 85%; 
     background: #1e293b; 
@@ -72,7 +69,22 @@
     font-size: 1.2rem;
   }
 
-  /* Bảng thông báo Mỏ tự động đào (Modal) */
+  /* Nút Chém Gió */
+  .community-btn {
+    margin-top: 30px; 
+    background: #2563eb; 
+    color: white; 
+    border: none; 
+    padding: 12px 30px; 
+    font-size: 1.1rem; 
+    font-weight: bold; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+    transition: transform 0.1s;
+  }
+  .community-btn:active { transform: scale(0.95); }
+
   #modal { 
     display: none; 
     position: fixed; 
@@ -104,7 +116,6 @@
   }
   .claim-btn:active { transform: scale(0.95); }
 
-  /* Hiệu ứng +1 bay lên */
   .float-text {
     position: absolute; color: white; font-size: 2rem; font-weight: bold; pointer-events: none;
     text-shadow: 0 0 5px rgba(0,0,0,0.5);
@@ -124,6 +135,10 @@
 </div>
 <div id="energy-text">⚡ ... / ...</div>
 
+<button class="community-btn" onclick="window.open('https://t.me/+N_tRE_tAY8JhZTBl', '_blank')">
+  💬 Tham Gia Nhóm Chém Gió
+</button>
+
 <div id="modal">
   <div class="modal-content">
     <h2>Chào mừng trở lại! 🥳</h2>
@@ -134,10 +149,9 @@
 </div>
 
 <script>
-  // LINK API MÁY CHỦ CỦA CHỦ TỊCH
   const API_URL = "https://taptoearn-backend.congle4443.workers.dev"; 
   const tg = window.Telegram.WebApp;
-  tg.expand(); // Mở full màn hình Telegram
+  tg.expand();
 
   let balance = 0;
   let energy = 1000;
@@ -147,21 +161,18 @@
   let tg_name = "Guest";
   let initData = "";
 
-  // Lấy dữ liệu vân tay người dùng từ Telegram để chống hack
   if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
       tg_id = tg.initDataUnsafe.user.id.toString();
       tg_name = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name;
       initData = tg.initData;
   }
 
-  // Hàm cập nhật Giao diện
   function updateUI() {
       document.getElementById('balance').innerText = Math.floor(balance).toLocaleString('vi-VN');
       document.getElementById('energy-text').innerText = `⚡ ${Math.floor(energy)} / ${maxEnergy}`;
       document.getElementById('energy-bar').style.width = `${(energy / maxEnergy) * 100}%`;
   }
 
-  // Hàm đồng bộ với Máy chủ khi vừa vào Game
   async function syncData() {
       try {
           const res = await fetch(API_URL, {
@@ -176,7 +187,6 @@
               maxEnergy = data.user.max_energy;
               tapLevel = data.user.tap_level || 1;
               
-              // Nếu máy chủ báo có cày được xu Offline thì bật Bảng thông báo
               if (data.idle_earned && data.idle_earned > 0) {
                   document.getElementById('offline-coins').innerText = Math.floor(data.idle_earned).toLocaleString('vi-VN');
                   document.getElementById('modal').style.display = 'flex';
@@ -188,13 +198,11 @@
       }
   }
 
-  // Tắt bảng thông báo khi bấm Nhận Xu
   function closeModal() {
       document.getElementById('modal').style.display = 'none';
       if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
   }
 
-  // Hệ thống Đập xu chống trượt
   let tapTimeout;
   let tapCount = 0;
 
@@ -205,10 +213,8 @@
           tapCount += tapLevel;
           updateUI();
           
-          // Rung điện thoại khi đập (Tạo cảm giác sướng)
           if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
 
-          // Hiệu ứng chữ +1 bay lên chỗ ngón tay bấm
           const floatText = document.createElement('div');
           floatText.className = 'float-text';
           floatText.innerText = `+${tapLevel}`;
@@ -217,7 +223,6 @@
           document.body.appendChild(floatText);
           setTimeout(() => floatText.remove(), 600);
 
-          // Gộp các cú đập lại gửi lên máy chủ 1 lần (Tránh quá tải sập Server)
           clearTimeout(tapTimeout);
           tapTimeout = setTimeout(sendTaps, 800);
       }
@@ -244,7 +249,6 @@
       }
   }
 
-  // Hồi năng lượng tự động trên màn hình
   setInterval(() => {
       if (energy < maxEnergy) {
           energy += 1;
@@ -252,7 +256,6 @@
       }
   }, 1000);
 
-  // Khởi động Game
   syncData();
 </script>
 </body>
