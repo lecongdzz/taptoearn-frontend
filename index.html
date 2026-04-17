@@ -19,8 +19,9 @@
   /* Tap Screen */
   #balance { font-size: 3rem; font-weight: 900; color: #facc15; text-shadow: 0 0 15px rgba(250, 204, 21, 0.6); margin-bottom: 10px; }
   .stats-row { display: flex; justify-content: space-around; width: 90%; background: #1e293b; padding: 10px; border-radius: 12px; border: 1px solid #334155; font-weight: bold; margin-bottom: 30px;}
-  .stats-row span { color: #cbd5e1; font-size: 1.1rem; }
-  .stats-row .highlight { color: #facc15; }
+  .stats-row span { color: #cbd5e1; font-size: 1rem; text-align: center; display: flex; flex-direction: column;}
+  .stats-row .highlight { color: #facc15; font-size: 1.2rem; margin-top: 5px;}
+  .stats-row .money { color: #10b981; font-size: 1.2rem; margin-top: 5px;}
 
   #coin { width: 220px; height: 220px; background: radial-gradient(circle, #fde047 0%, #ca8a04 80%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6rem; color: #854d0e; font-weight: bold; box-shadow: 0 15px 35px rgba(234, 179, 8, 0.4), inset 0 -10px 20px rgba(133, 77, 14, 0.5); transition: transform 0.05s; position: relative; margin-bottom: 40px;}
   #coin:active { transform: scale(0.92); box-shadow: 0 5px 15px rgba(234, 179, 8, 0.4); }
@@ -30,13 +31,15 @@
   .progress-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #eab308, #facc15); border-radius: 15px; transition: width 0.2s; }
   #energy-text { text-align: center; margin-top: 10px; font-weight: bold; color: #fbd38d; font-size: 1.2rem; }
 
-  /* Cards & Forms (Shop/Bank/Top) */
+  /* Cards & Forms (Shop/Wallet/Top) */
   .card { background: #1e293b; width: 85%; border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; box-shadow: 0 4px 6px rgba(0,0,0,0.3);}
-  .card h3 { color: #facc15; margin-top: 0; text-align: center; font-size: 1.4rem; border-bottom: 1px solid #334155; padding-bottom: 10px;}
+  .card h3 { color: #facc15; margin-top: 0; text-align: center; font-size: 1.3rem; border-bottom: 1px solid #334155; padding-bottom: 10px;}
   input { width: 90%; padding: 12px; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; font-weight: bold; font-size: 1rem; text-align: center;}
   .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; background: #2563eb; color: white; margin-top: 10px; transition: transform 0.1s;}
   .btn:active { transform: scale(0.95); }
   .btn-gold { background: linear-gradient(90deg, #eab308, #facc15); color: #854d0e; }
+  .btn-green { background: #059669; color: white; }
+  .btn-task { background: #8b5cf6; color: white; } /* Màu nút nhiệm vụ */
 
   /* Top */
   .top-user { display: flex; justify-content: space-between; padding: 12px 5px; border-bottom: 1px solid #334155; font-size: 1.1rem;}
@@ -55,8 +58,8 @@
   <div id="balance">0</div>
   
   <div class="stats-row">
-    <span>🪙 Vàng: <span class="highlight" id="gold-bal">0</span></span>
-    <span>💵 VNĐ: <span class="highlight" id="vnd-bal">0đ</span></span>
+    <span>🪙 Vàng<span class="highlight" id="gold-bal">0</span></span>
+    <span>💳 Số dư Rút<span class="money" id="vnd-bal">0đ</span></span>
   </div>
 
   <div id="coin">$</div>
@@ -72,55 +75,58 @@
 <div id="screen-shop" class="screen">
   <div class="card">
     <h3>🔄 Sàn Giao Dịch</h3>
-    <p style="text-align: center; color: #94a3b8;">Tỷ giá: 1,000 Coin ⇌ 100 Vàng</p>
-    <button class="btn" onclick="alert('Tính năng đang chờ Admin kết nối Backend!')">Đổi Coin -> Vàng</button>
-    <button class="btn" style="background: #059669;" onclick="alert('Tính năng đang chờ Admin kết nối Backend!')">Đổi Vàng -> Coin</button>
+    <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">Tỷ giá: 1,000 Coin ⇌ 100 Vàng</p>
+    <button class="btn" onclick="alert('Đang bảo trì chờ Admin lên Database!')">Đổi Coin Lấy Vàng</button>
+    <button class="btn btn-green" onclick="alert('Đang bảo trì chờ Admin lên Database!')">Bán Vàng Lấy Coin</button>
   </div>
 
   <div class="card">
-    <h3>🚀 Cửa Hàng Máy Đào</h3>
-    <p style="text-align: center; font-size: 1.2rem;">Giá: <span style="color:#facc15; font-weight:bold;">100 Vàng</span> / Máy</p>
-    <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">Tăng tốc độ cày tự động khi tắt ứng dụng.</p>
-    <button class="btn btn-gold" onclick="alert('Tính năng đang chờ Admin kết nối Backend!')">Mua Máy Đào Cấp 1</button>
+    <h3>🚀 Cửa Hàng Máy Đào VIP</h3>
+    <p style="text-align: center; font-size: 1.2rem;">Giá: <span style="color:#facc15; font-weight:bold;">1.000 Vàng</span></p>
+    <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">Tự động đào xu với tốc độ ánh sáng ngay cả khi tắt ứng dụng. (Cày Vàng bên mục Nhiệm Vụ để mua nhé!)</p>
+    <button class="btn btn-gold" onclick="alert('Chưa đủ Vàng! Hãy qua mục Nhiệm Vụ để cày Vàng nhé!')">Mua Máy Đào Cấp 1</button>
   </div>
 </div>
 
-<div id="screen-bank" class="screen">
-  <div class="card">
-    <h3>🎁 Giftcode Nhận Thưởng</h3>
-    <input type="text" id="giftcode-input" placeholder="Nhập mã code Admin cấp...">
-    <button class="btn btn-gold" onclick="alert('Hệ thống đang kiểm tra mã...')">Nhận Thưởng</button>
+<div id="screen-wallet" class="screen">
+  
+  <div class="card" style="border-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);">
+    <h3 style="color: #c4b5fd; border-bottom-color: #8b5cf6;">🎯 Trung Tâm Nhiệm Vụ</h3>
+    <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Làm nhiệm vụ mỗi ngày để kiếm Vàng và Coin khủng!</p>
+    
+    <div style="background: #0f172a; padding: 10px; border-radius: 8px; border: 1px dashed #8b5cf6; margin-bottom: 10px;">
+      <div style="font-weight: bold; color: white;">1. Vượt Link Sanlink247</div>
+      <div style="color: #facc15; font-size: 0.9rem;">+ Mở khóa 6h đào tự động</div>
+      <button class="btn btn-task" style="padding: 8px; font-size: 0.9rem;" onclick="alert('Tính năng vượt link đang kết nối!')">Vượt Link Ngay</button>
+    </div>
+
+    <div style="background: #0f172a; padding: 10px; border-radius: 8px; border: 1px dashed #8b5cf6;">
+      <div style="font-weight: bold; color: white;">2. Đánh Giá Map 5 Sao</div>
+      <div style="color: #facc15; font-size: 0.9rem;">+ Thưởng 100k Coin cực gắt</div>
+      <button class="btn btn-task" style="padding: 8px; font-size: 0.9rem;" onclick="alert('Hãy thoát ra ngoài Chat Bot và bấm nút LÀM NHIỆM VỤ MAP nhé!')">Xem Hướng Dẫn</button>
+    </div>
   </div>
 
   <div class="card">
-    <h3>🏦 Nạp Tiền Bơm Vốn</h3>
-    <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Chuyển khoản chính xác nội dung bên dưới để tự động cộng tiền (5-10 phút).</p>
-    <div style="background: #f8fafc; padding: 15px; border-radius: 10px; text-align: center; color: #0f172a; font-weight: bold; margin: 15px 0;">
-      Ngân hàng: MB BANK<br>
-      STK: <span style="font-size:1.2rem; color:#b91c1c;">0358613334</span><br>
-      Chủ TK: LE THANH CONG
-    </div>
-    <p style="text-align: center; margin-bottom: 5px; color:#94a3b8;">Nội dung chuyển khoản (BẮT BUỘC):</p>
-    <div style="border: 2px dashed #facc15; padding: 12px; text-align: center; color: #facc15; font-weight: bold; font-size: 1.1rem; border-radius: 8px;">
-      <span id="transfer-note">Đang tạo mã...</span>
-    </div>
-    <button class="btn" style="margin-top:15px;" onclick="alert('Đã gửi yêu cầu kiểm tra giao dịch tới Admin!')">Tôi Đã Chuyển Khoản</button>
+    <h3>🎁 Nhập Giftcode</h3>
+    <input type="text" id="giftcode-input" placeholder="Nhập mã code từ Admin...">
+    <button class="btn btn-gold" onclick="alert('Chưa có CSDL Giftcode, chờ Admin setup!')">Nhận Thưởng Ngay</button>
   </div>
 
-  <div class="card">
-    <h3>💸 Rút Tiền Về Bank</h3>
-    <p style="text-align: center; font-size: 0.9rem; color: #ef4444;">Min rút: 2,000đ (Tương đương 4 Triệu Coin)</p>
+  <div class="card" style="border-color: #ef4444;">
+    <h3 style="color: #ef4444; border-bottom-color: #ef4444;">💸 Rút Tiền Về Ngân Hàng</h3>
+    <p style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 0;">Min rút: 4M Coin = 2k VNĐ<br>*Mỗi ngày chỉ được tạo 1 lệnh rút.<br>*Tối đa 100k VNĐ / ngày.</p>
     <input type="text" placeholder="Tên Ngân Hàng (VD: MB BANK)">
     <input type="number" placeholder="Số Tài Khoản">
     <input type="text" placeholder="TÊN CHỦ TK (IN HOA KHÔNG DẤU)">
     <input type="number" placeholder="Số Coin muốn rút (VD: 4000000)">
-    <button class="btn btn-gold" onclick="alert('Lệnh rút tiền đang được gửi tới Sếp Tổng...')">Tạo Lệnh Rút</button>
+    <button class="btn btn-gold" onclick="alert('Lệnh rút tiền đang được gửi tới Admin xử lý...')">Tạo Lệnh Rút</button>
   </div>
 </div>
 
 <div id="screen-top" class="screen">
-  <h2 style="color: #facc15; margin-bottom: 5px;">🏆 BẢNG XẾP HẠNG 🏆</h2>
-  <p style="color: #94a3b8; margin-bottom: 20px;">Top 10 Thợ Đào Xuất Sắc Nhất</p>
+  <h2 style="color: #facc15; margin-bottom: 5px;">🏆 BẢNG VÀNG 🏆</h2>
+  <p style="color: #94a3b8; margin-bottom: 20px;">Top 10 Đại Gia Đào Coin</p>
   
   <div class="card" style="padding: 10px; width: 90%;">
     <div class="top-user top-1"><span>🥇 Sếp Tổng</span> <span>99,999,999</span></div>
@@ -139,7 +145,7 @@
 <div class="bottom-nav">
   <div class="nav-item active" onclick="nav('tap', this)"><span>⛏</span>Đào Xu</div>
   <div class="nav-item" onclick="nav('shop', this)"><span>🛒</span>Cửa Hàng</div>
-  <div class="nav-item" onclick="nav('bank', this)"><span>🏦</span>Ngân Hàng</div>
+  <div class="nav-item" onclick="nav('wallet', this)"><span>📋</span>Nhiệm Vụ</div>
   <div class="nav-item" onclick="nav('top', this)"><span>🏆</span>Đua Top</div>
 </div>
 
@@ -149,7 +155,6 @@
   tg.expand();
   tg.disableVerticalSwipes();
 
-  // Chuyển Tab Menu
   function nav(screenId, element) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -157,7 +162,6 @@
     element.classList.add('active');
   }
 
-  // Thông tin User & Mã Nạp Tiền
   let tg_id = "nguoi_choi_test";
   let tg_name = "Guest";
   let initData = "";
@@ -166,108 +170,61 @@
       tg_id = tg.initDataUnsafe.user.id.toString();
       tg_name = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name;
       initData = tg.initData;
-      // Tạo mã chuyển khoản: NAP + Tên (bỏ ký tự lạ) + ID
-      let cleanName = tg_name.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-      document.getElementById('transfer-note').innerText = `NAP ${cleanName} ${tg_id}`;
-  } else {
-      document.getElementById('transfer-note').innerText = `NAP GUEST 000`;
-  }
+  } 
 
-  // Biến Game
-  let balance = 0;
-  let energy = 1000;
-  let maxEnergy = 1000;
-  let tapLevel = 1;
+  let balance = 0; let energy = 1000; let maxEnergy = 1000; let tapLevel = 1;
 
-  // Cập nhật UI
   function updateUI() {
       document.getElementById('balance').innerText = Math.floor(balance).toLocaleString('vi-VN');
       document.getElementById('energy-text').innerText = `⚡ ${Math.floor(energy)} / ${maxEnergy}`;
       document.getElementById('energy-bar').style.width = `${(energy / maxEnergy) * 100}%`;
       
-      // Tính thử VNĐ (Giả lập: 4M xu = 2k VNĐ -> 1 xu = 0.0005 VNĐ)
-      let vnd = balance * 0.0005;
+      let vnd = Math.floor(balance * 0.0005); 
       document.getElementById('vnd-bal').innerText = vnd.toLocaleString('vi-VN') + 'đ';
   }
 
-  // Đồng bộ Dữ liệu với Cloudflare
   async function syncData() {
       try {
           const res = await fetch(API_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
+              method: "POST", headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ action: "sync", tg_id, tg_name, initData })
           });
           const data = await res.json();
           if (data.success) {
-              balance = data.user.balance;
-              energy = data.user.energy;
-              maxEnergy = data.user.max_energy;
-              tapLevel = data.user.tap_level || 1;
+              balance = data.user.balance; energy = data.user.energy; maxEnergy = data.user.max_energy; tapLevel = data.user.tap_level || 1;
               updateUI();
           }
-      } catch (e) {
-          console.error("Lỗi đồng bộ:", e);
-      }
+      } catch (e) {}
   }
 
-  // Logic Đập Xu
-  let tapTimeout;
-  let tapCount = 0;
-
+  let tapTimeout; let tapCount = 0;
   document.getElementById('coin').addEventListener('pointerdown', (e) => {
       if (energy >= tapLevel) {
-          energy -= tapLevel;
-          balance += tapLevel; 
-          tapCount += tapLevel;
+          energy -= tapLevel; balance += tapLevel; tapCount += tapLevel;
           updateUI();
-          
           if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-
-          // Hiệu ứng số +1 bay lên
           const floatText = document.createElement('div');
-          floatText.className = 'float-text';
-          floatText.innerText = `+${tapLevel}`;
-          floatText.style.left = `${e.clientX - 15}px`;
-          floatText.style.top = `${e.clientY - 20}px`;
+          floatText.className = 'float-text'; floatText.innerText = `+${tapLevel}`;
+          floatText.style.left = `${e.clientX - 15}px`; floatText.style.top = `${e.clientY - 20}px`;
           document.body.appendChild(floatText);
           setTimeout(() => floatText.remove(), 600);
-
-          clearTimeout(tapTimeout);
-          tapTimeout = setTimeout(sendTaps, 800);
+          clearTimeout(tapTimeout); tapTimeout = setTimeout(sendTaps, 800);
       }
   });
 
   async function sendTaps() {
       if (tapCount === 0) return;
-      const currentTaps = tapCount;
-      tapCount = 0;
+      const currentTaps = tapCount; tapCount = 0;
       try {
           const res = await fetch(API_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
+              method: "POST", headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ action: "tap", taps: currentTaps, tg_id, tg_name, initData })
           });
           const data = await res.json();
-          if (data.success) {
-              balance = data.user.balance;
-              energy = data.user.energy;
-              updateUI();
-          }
-      } catch (e) {
-          console.error("Lỗi gửi xu:", e);
-      }
+          if (data.success) { balance = data.user.balance; energy = data.user.energy; updateUI(); }
+      } catch (e) {}
   }
-
-  // Hồi năng lượng
-  setInterval(() => {
-      if (energy < maxEnergy) {
-          energy += 1;
-          updateUI();
-      }
-  }, 1000);
-
-  // Khởi động
+  setInterval(() => { if (energy < maxEnergy) { energy += 1; updateUI(); } }, 1000);
   syncData();
 </script>
 </body>
