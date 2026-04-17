@@ -3,229 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Game Đào Coin VIP</title>
+<title>Siêu App Đào Coin</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  body { background-color: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; user-select: none; }
-  .screen { display: none; flex-direction: column; align-items: center; justify-content: flex-start; height: 100vh; padding-top: 20px; box-sizing: border-box; padding-bottom: 90px; overflow-y: auto; width: 100%;}
+  body { background: linear-gradient(135deg, #0f172a, #1e1b4b); color: white; font-family: sans-serif; margin: 0; overflow: hidden; user-select: none; }
+  .screen { display: none; flex-direction: column; align-items: center; height: 100vh; padding-top: 20px; padding-bottom: 90px; overflow-y: auto; width: 100%;}
   .screen.active { display: flex; }
-
-  /* Bottom Nav */
-  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #334155; z-index: 100; padding-bottom: env(safe-area-inset-bottom, 15px); }
-  .nav-item { color: #94a3b8; font-size: 0.9rem; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 25%;}
+  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(30,41,59,0.9); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 100; }
+  .nav-item { color: #94a3b8; font-size: 0.85rem; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 25%;}
   .nav-item span { font-size: 1.5rem; margin-bottom: 3px;}
   .nav-item.active { color: #facc15; }
-
-  /* Tap Screen */
-  #balance { font-size: 3rem; font-weight: 900; color: #facc15; text-shadow: 0 0 15px rgba(250, 204, 21, 0.6); margin-bottom: 10px; }
-  .stats-row { display: flex; justify-content: space-around; width: 90%; background: #1e293b; padding: 10px; border-radius: 12px; border: 1px solid #334155; font-weight: bold; margin-bottom: 30px;}
-  .stats-row span { color: #cbd5e1; font-size: 1rem; text-align: center; display: flex; flex-direction: column;}
-  .stats-row .highlight { color: #facc15; font-size: 1.2rem; margin-top: 5px;}
-  .stats-row .money { color: #10b981; font-size: 1.2rem; margin-top: 5px;}
-
-  #coin { width: 220px; height: 220px; background: radial-gradient(circle, #fde047 0%, #ca8a04 80%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6rem; color: #854d0e; font-weight: bold; box-shadow: 0 15px 35px rgba(234, 179, 8, 0.4), inset 0 -10px 20px rgba(133, 77, 14, 0.5); transition: transform 0.05s; position: relative; margin-bottom: 40px;}
-  #coin:active { transform: scale(0.92); box-shadow: 0 5px 15px rgba(234, 179, 8, 0.4); }
-
-  .energy-wrapper { width: 85%; }
-  .progress-container { width: 100%; background: #1e293b; border-radius: 20px; height: 25px; border: 3px solid #334155; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
-  .progress-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #eab308, #facc15); border-radius: 15px; transition: width 0.2s; }
-  #energy-text { text-align: center; margin-top: 10px; font-weight: bold; color: #fbd38d; font-size: 1.2rem; }
-
-  /* Cards & Forms (Shop/Wallet/Top) */
-  .card { background: #1e293b; width: 85%; border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; box-shadow: 0 4px 6px rgba(0,0,0,0.3);}
-  .card h3 { color: #facc15; margin-top: 0; text-align: center; font-size: 1.3rem; border-bottom: 1px solid #334155; padding-bottom: 10px;}
-  input { width: 90%; padding: 12px; margin: 10px auto; display: block; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; font-weight: bold; font-size: 1rem; text-align: center;}
-  .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; background: #2563eb; color: white; margin-top: 10px; transition: transform 0.1s;}
-  .btn:active { transform: scale(0.95); }
-  .btn-gold { background: linear-gradient(90deg, #eab308, #facc15); color: #854d0e; }
-  .btn-green { background: #059669; color: white; }
-  .btn-task { background: #8b5cf6; color: white; } /* Màu nút nhiệm vụ */
-
-  /* Top */
-  .top-user { display: flex; justify-content: space-between; padding: 12px 5px; border-bottom: 1px solid #334155; font-size: 1.1rem;}
-  .top-user:last-child { border-bottom: none; }
-  .top-1 { color: #facc15; font-weight: 900; font-size: 1.2rem;}
-  .top-2 { color: #e2e8f0; font-weight: bold;}
-  .top-3 { color: #b45309; font-weight: bold;}
-
-  .float-text { position: absolute; color: white; font-size: 2rem; font-weight: bold; pointer-events: none; text-shadow: 0 0 5px rgba(0,0,0,0.5); animation: floatUp 0.6s ease-out forwards; }
-  @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-70px); } }
+  .card { background: rgba(255,255,255,0.05); width: 85%; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
+  .card h3 { color: #facc15; margin-top: 0; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+  #balance { font-size: 3.5rem; font-weight: 900; color: #facc15; margin-bottom: 10px; }
+  .stats-row { display: flex; justify-content: space-around; width: 90%; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; font-weight: bold; margin-bottom: 25px; }
+  .stats-row span { color: #cbd5e1; font-size: 0.9rem; text-align: center; display: flex; flex-direction: column;}
+  .stats-row .highlight { color: #facc15; font-size: 1.3rem; margin-top: 5px;}
+  .stats-row .money { color: #10b981; font-size: 1.3rem; margin-top: 5px;}
+  #coin { width: 220px; height: 220px; background: radial-gradient(circle, #fef08a 0%, #eab308 50%, #a16207 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6rem; color: #713f12; font-weight: bold; margin-bottom: 30px; border: 4px solid #fef08a; transition: transform 0.05s;}
+  #coin:active { transform: scale(0.92); }
+  .progress-container { width: 85%; background: rgba(0,0,0,0.5); border-radius: 20px; height: 25px; border: 2px solid rgba(255,255,255,0.1); }
+  .progress-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #eab308, #facc15); border-radius: 15px; transition: width 0.2s;}
+  #energy-text { margin-top: 10px; font-weight: bold; color: #fbd38d; font-size: 1.2rem; }
+  input { width: 90%; padding: 14px; margin: 10px auto; display: block; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; text-align: center; font-size: 1rem;}
+  .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 900; font-size: 1.1rem; cursor: pointer; color: white; margin-top: 10px;}
+  .btn-gold { background: linear-gradient(90deg, #eab308, #ca8a04); color: #000; }
+  .btn-purple { background: linear-gradient(90deg, #8b5cf6, #6d28d9); }
+  .btn-green { background: linear-gradient(90deg, #10b981, #047857); }
 </style>
 </head>
 <body>
 
 <div id="screen-tap" class="screen active">
   <div id="balance">0</div>
-  
   <div class="stats-row">
     <span>🪙 Vàng<span class="highlight" id="gold-bal">0</span></span>
-    <span>💳 Số dư Rút<span class="money" id="vnd-bal">0đ</span></span>
+    <span>💳 Rút (VNĐ)<span class="money" id="vnd-bal">0đ</span></span>
   </div>
-
   <div id="coin">$</div>
+  <div class="progress-container"><div class="progress-bar" id="energy-bar"></div></div>
+  <div id="energy-text">⚡ 1000 / 1000</div>
+</div>
 
-  <div class="energy-wrapper">
-    <div class="progress-container">
-      <div class="progress-bar" id="energy-bar"></div>
+<div id="screen-task" class="screen">
+  <div class="card" style="border-color: #8b5cf6;">
+    <h3 style="color: #c4b5fd;">🤝 Mời Bạn Bè</h3>
+    <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Mời 1 người nhận <b style="color:#facc15">100 Vàng</b> (Max 100 ref).</p>
+    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; text-align: center; margin-bottom:10px;">
+      <span style="color: #94a3b8;">Đã mời: </span><span style="font-size: 1.2rem; color: #facc15;" id="ref-count">0</span><span style="color: #94a3b8;">/100</span>
     </div>
-    <div id="energy-text">⚡ 1000 / 1000</div>
+    <input type="text" id="ref-link" readonly style="font-size: 0.8rem; color: #a78bfa;">
+    <button class="btn btn-purple" onclick="copyRef()">📋 Copy Link</button>
+  </div>
+  <div class="card">
+    <h3>🎁 Nhập Code Nhận Quà</h3>
+    <input type="text" id="giftcode-input" placeholder="Nhập mã Sếp cấp...">
+    <button class="btn btn-gold" onclick="sendApi('giftcode', document.getElementById('giftcode-input').value)">Nhận Thưởng</button>
   </div>
 </div>
 
 <div id="screen-shop" class="screen">
   <div class="card">
-    <h3>🔄 Sàn Giao Dịch</h3>
-    <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">Tỷ giá: 1,000 Coin ⇌ 100 Vàng</p>
-    <button class="btn" onclick="alert('Đang bảo trì chờ Admin lên Database!')">Đổi Coin Lấy Vàng</button>
-    <button class="btn btn-green" onclick="alert('Đang bảo trì chờ Admin lên Database!')">Bán Vàng Lấy Coin</button>
+    <h3>🚀 Máy Đào Siêu Tốc</h3>
+    <p style="text-align: center;">Giá: <b style="color:#facc15;">1.000 Vàng</b></p>
+    <p style="text-align: center; font-size: 0.85rem; color: #94a3b8;">Cấp hiện tại: <span id="machine-lvl" style="color:white; font-weight:bold;">0</span></p>
+    <button class="btn btn-gold" onclick="sendApi('buy_machine')">Nâng Cấp Máy Đào</button>
   </div>
-
   <div class="card">
-    <h3>🚀 Cửa Hàng Máy Đào VIP</h3>
-    <p style="text-align: center; font-size: 1.2rem;">Giá: <span style="color:#facc15; font-weight:bold;">1.000 Vàng</span></p>
-    <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">Tự động đào xu với tốc độ ánh sáng ngay cả khi tắt ứng dụng. (Cày Vàng bên mục Nhiệm Vụ để mua nhé!)</p>
-    <button class="btn btn-gold" onclick="alert('Chưa đủ Vàng! Hãy qua mục Nhiệm Vụ để cày Vàng nhé!')">Mua Máy Đào Cấp 1</button>
+    <h3>🔄 Chợ Đổi Vàng</h3>
+    <p style="text-align: center; font-size: 0.9rem;">1,000 Coin ⇌ 100 Vàng</p>
+    <button class="btn btn-green" style="margin-bottom: 10px;" onclick="sendApi('exchange', 'c2g')">Đổi Coin -> Vàng</button>
+    <button class="btn" style="background: #334155;" onclick="sendApi('exchange', 'g2c')">Bán Vàng -> Coin</button>
   </div>
 </div>
 
-<div id="screen-wallet" class="screen">
-  
-  <div class="card" style="border-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);">
-    <h3 style="color: #c4b5fd; border-bottom-color: #8b5cf6;">🎯 Trung Tâm Nhiệm Vụ</h3>
-    <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Làm nhiệm vụ mỗi ngày để kiếm Vàng và Coin khủng!</p>
-    
-    <div style="background: #0f172a; padding: 10px; border-radius: 8px; border: 1px dashed #8b5cf6; margin-bottom: 10px;">
-      <div style="font-weight: bold; color: white;">1. Vượt Link Sanlink247</div>
-      <div style="color: #facc15; font-size: 0.9rem;">+ Mở khóa 6h đào tự động</div>
-      <button class="btn btn-task" style="padding: 8px; font-size: 0.9rem;" onclick="alert('Tính năng vượt link đang kết nối!')">Vượt Link Ngay</button>
-    </div>
-
-    <div style="background: #0f172a; padding: 10px; border-radius: 8px; border: 1px dashed #8b5cf6;">
-      <div style="font-weight: bold; color: white;">2. Đánh Giá Map 5 Sao</div>
-      <div style="color: #facc15; font-size: 0.9rem;">+ Thưởng 100k Coin cực gắt</div>
-      <button class="btn btn-task" style="padding: 8px; font-size: 0.9rem;" onclick="alert('Hãy thoát ra ngoài Chat Bot và bấm nút LÀM NHIỆM VỤ MAP nhé!')">Xem Hướng Dẫn</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>🎁 Nhập Giftcode</h3>
-    <input type="text" id="giftcode-input" placeholder="Nhập mã code từ Admin...">
-    <button class="btn btn-gold" onclick="alert('Chưa có CSDL Giftcode, chờ Admin setup!')">Nhận Thưởng Ngay</button>
-  </div>
-
+<div id="screen-bank" class="screen">
   <div class="card" style="border-color: #ef4444;">
-    <h3 style="color: #ef4444; border-bottom-color: #ef4444;">💸 Rút Tiền Về Ngân Hàng</h3>
-    <p style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 0;">Min rút: 4M Coin = 2k VNĐ<br>*Mỗi ngày chỉ được tạo 1 lệnh rút.<br>*Tối đa 100k VNĐ / ngày.</p>
-    <input type="text" placeholder="Tên Ngân Hàng (VD: MB BANK)">
-    <input type="number" placeholder="Số Tài Khoản">
-    <input type="text" placeholder="TÊN CHỦ TK (IN HOA KHÔNG DẤU)">
-    <input type="number" placeholder="Số Coin muốn rút (VD: 4000000)">
-    <button class="btn btn-gold" onclick="alert('Lệnh rút tiền đang được gửi tới Admin xử lý...')">Tạo Lệnh Rút</button>
-  </div>
-</div>
-
-<div id="screen-top" class="screen">
-  <h2 style="color: #facc15; margin-bottom: 5px;">🏆 BẢNG VÀNG 🏆</h2>
-  <p style="color: #94a3b8; margin-bottom: 20px;">Top 10 Đại Gia Đào Coin</p>
-  
-  <div class="card" style="padding: 10px; width: 90%;">
-    <div class="top-user top-1"><span>🥇 Sếp Tổng</span> <span>99,999,999</span></div>
-    <div class="top-user top-2"><span>🥈 Đại Gia 1</span> <span>50,000,000</span></div>
-    <div class="top-user top-3"><span>🥉 Dân Cày VIP</span> <span>45,000,000</span></div>
-    <div class="top-user"><span>4. Member 4</span> <span>20,000,000</span></div>
-    <div class="top-user"><span>5. Đang cập nhật...</span> <span>---</span></div>
-    <div class="top-user"><span>6. Đang cập nhật...</span> <span>---</span></div>
-    <div class="top-user"><span>7. Đang cập nhật...</span> <span>---</span></div>
-    <div class="top-user"><span>8. Đang cập nhật...</span> <span>---</span></div>
-    <div class="top-user"><span>9. Đang cập nhật...</span> <span>---</span></div>
-    <div class="top-user"><span>10. Đang cập nhật...</span> <span>---</span></div>
+    <h3 style="color: #fca5a5;">💸 Rút Tiền Về Bank</h3>
+    <p style="text-align: center; font-size: 0.8rem; color: #94a3b8;">Min: 4M Coin. Max: 100k VNĐ/ngày.</p>
+    <input type="text" id="wd-bank" placeholder="Ngân Hàng (VD: MB BANK)">
+    <input type="number" id="wd-stk" placeholder="Số Tài Khoản">
+    <input type="text" id="wd-name" placeholder="TÊN CHỦ TK (IN HOA)">
+    <input type="number" id="wd-amt" placeholder="Số Coin rút (VD: 4000000)">
+    <button class="btn btn-gold" onclick="withdraw()">Tạo Lệnh Rút</button>
   </div>
 </div>
 
 <div class="bottom-nav">
   <div class="nav-item active" onclick="nav('tap', this)"><span>⛏</span>Đào Xu</div>
+  <div class="nav-item" onclick="nav('task', this)"><span>🎯</span>Nhiệm Vụ</div>
   <div class="nav-item" onclick="nav('shop', this)"><span>🛒</span>Cửa Hàng</div>
-  <div class="nav-item" onclick="nav('wallet', this)"><span>📋</span>Nhiệm Vụ</div>
-  <div class="nav-item" onclick="nav('top', this)"><span>🏆</span>Đua Top</div>
+  <div class="nav-item" onclick="nav('bank', this)"><span>🏦</span>Rút Tiền</div>
 </div>
 
 <script>
-  const API_URL = "https://taptoearn-backend.congle4443.workers.dev"; 
-  const tg = window.Telegram.WebApp;
-  tg.expand();
-  tg.disableVerticalSwipes();
-
-  function nav(screenId, element) {
+  const API_URL = "https://taptoearn-backend.congle4443.workers.dev"; // GIỮ NGUYÊN LINK NÀY
+  const tg = window.Telegram.WebApp; tg.expand(); tg.disableVerticalSwipes();
+  function nav(id, el) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('screen-' + screenId).classList.add('active');
-    element.classList.add('active');
+    document.getElementById('screen-' + id).classList.add('active'); el.classList.add('active');
   }
 
-  let tg_id = "nguoi_choi_test";
-  let tg_name = "Guest";
-  let initData = "";
+  let tg_id = "nguoi_choi_test"; let tg_name = "Guest"; let initData = "";
+  if (tg.initDataUnsafe && tg.initDataUnsafe.user) { 
+    tg_id = tg.initDataUnsafe.user.id.toString(); 
+    tg_name = tg.initDataUnsafe.user.first_name;
+    initData = tg.initData;
+  }
+  document.getElementById('ref-link').value = `https://t.me/BotCuaSep_bot?start=ref_${tg_id}`;
 
-  if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      tg_id = tg.initDataUnsafe.user.id.toString();
-      tg_name = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name;
-      initData = tg.initData;
-  } 
-
-  let balance = 0; let energy = 1000; let maxEnergy = 1000; let tapLevel = 1;
-
-  function updateUI() {
-      document.getElementById('balance').innerText = Math.floor(balance).toLocaleString('vi-VN');
-      document.getElementById('energy-text').innerText = `⚡ ${Math.floor(energy)} / ${maxEnergy}`;
-      document.getElementById('energy-bar').style.width = `${(energy / maxEnergy) * 100}%`;
-      
-      let vnd = Math.floor(balance * 0.0005); 
-      document.getElementById('vnd-bal').innerText = vnd.toLocaleString('vi-VN') + 'đ';
+  function copyRef() {
+    let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy");
+    alert("Đã copy Link Mời Bạn Bè!");
   }
 
-  async function syncData() {
-      try {
-          const res = await fetch(API_URL, {
-              method: "POST", headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ action: "sync", tg_id, tg_name, initData })
-          });
-          const data = await res.json();
-          if (data.success) {
-              balance = data.user.balance; energy = data.user.energy; maxEnergy = data.user.max_energy; tapLevel = data.user.tap_level || 1;
-              updateUI();
-          }
-      } catch (e) {}
+  let bal = 0; let nrg = 1000; let gold = 0; let mLvl = 0; let tapC = 0; let tapT;
+
+  function updateUI(data) {
+    bal = data.balance; nrg = data.energy; gold = data.gold || 0; mLvl = data.machine_lvl || 0;
+    document.getElementById('balance').innerText = bal.toLocaleString('vi-VN');
+    document.getElementById('vnd-bal').innerText = Math.floor(bal * 0.0005).toLocaleString('vi-VN') + 'đ';
+    document.getElementById('gold-bal').innerText = gold.toLocaleString('vi-VN');
+    document.getElementById('machine-lvl').innerText = mLvl;
+    if(data.ref_count !== undefined) document.getElementById('ref-count').innerText = data.ref_count;
+    updateNrgUI();
   }
 
-  let tapTimeout; let tapCount = 0;
-  document.getElementById('coin').addEventListener('pointerdown', (e) => {
-      if (energy >= tapLevel) {
-          energy -= tapLevel; balance += tapLevel; tapCount += tapLevel;
-          updateUI();
-          if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-          const floatText = document.createElement('div');
-          floatText.className = 'float-text'; floatText.innerText = `+${tapLevel}`;
-          floatText.style.left = `${e.clientX - 15}px`; floatText.style.top = `${e.clientY - 20}px`;
-          document.body.appendChild(floatText);
-          setTimeout(() => floatText.remove(), 600);
-          clearTimeout(tapTimeout); tapTimeout = setTimeout(sendTaps, 800);
+  function updateNrgUI() {
+    document.getElementById('energy-bar').style.width = `${(nrg/1000)*100}%`;
+    document.getElementById('energy-text').innerText = `⚡ ${Math.floor(nrg)} / 1000`;
+  }
+
+  async function sendApi(action, dataStr = null) {
+    tg.MainButton.showProgress();
+    try {
+      let res = await fetch(API_URL, {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ action: action, tg_id: tg_id, tg_name: tg_name, initData: initData, data: dataStr })
+      });
+      let json = await res.json();
+      tg.MainButton.hideProgress();
+      if(json.error) return alert("❌ " + json.error);
+      if(json.success) {
+        updateUI(json.user);
+        if(json.msg) alert("✅ " + json.msg);
+        else alert("✅ Giao dịch thành công!");
       }
+    } catch(e) { tg.MainButton.hideProgress(); alert("Lỗi mạng!"); }
+  }
+
+  function withdraw() {
+    let bank = document.getElementById('wd-bank').value;
+    let stk = document.getElementById('wd-stk').value;
+    let name = document.getElementById('wd-name').value;
+    let amt = document.getElementById('wd-amt').value;
+    if(!bank || !stk || !name || !amt) return alert("Điền đầy đủ thông tin!");
+    sendApi("withdraw", { bank: bank, stk: stk, name: name, amount: amt });
+  }
+
+  document.getElementById('coin').addEventListener('pointerdown', (e) => {
+    if(nrg > 0) {
+      bal++; nrg--; tapC++; updateNrgUI();
+      document.getElementById('balance').innerText = bal.toLocaleString('vi-VN');
+      if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+      clearTimeout(tapT); tapT = setTimeout(() => {
+        let t = tapC; tapC = 0;
+        fetch(API_URL, {
+          method: "POST", headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ action: "tap", taps: t, tg_id: tg_id, tg_name: tg_name, initData: initData })
+        }).then(r=>r.json()).then(j => { if(j.success) updateUI(j.user); });
+      }, 1000);
+    }
   });
 
-  async function sendTaps() {
-      if (tapCount === 0) return;
-      const currentTaps = tapCount; tapCount = 0;
-      try {
-          const res = await fetch(API_URL, {
-              method: "POST", headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ action: "tap", taps: currentTaps, tg_id, tg_name, initData })
-          });
-          const data = await res.json();
-          if (data.success) { balance = data.user.balance; energy = data.user.energy; updateUI(); }
-      } catch (e) {}
-  }
-  setInterval(() => { if (energy < maxEnergy) { energy += 1; updateUI(); } }, 1000);
-  syncData();
+  setInterval(() => { if(nrg < 1000) { nrg++; updateNrgUI(); } }, 1000);
+  
+  // Khởi động
+  fetch(API_URL, {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ action: "sync", tg_id: tg_id, tg_name: tg_name, initData: initData })
+  }).then(r=>r.json()).then(j => { if(j.success) updateUI(j.user); });
 </script>
 </body>
 </html>
