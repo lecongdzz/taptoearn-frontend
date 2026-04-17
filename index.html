@@ -89,6 +89,16 @@
   </div>
 </div>
 
+<div id="screen-lock" class="screen" style="z-index: 999; background: rgba(0,0,0,0.95); justify-content: center;">
+  <div class="card" style="border-color: #ef4444;">
+    <h3 style="color: #fca5a5;">🛑 MÁY ĐÀO ĐÃ ĐẦY</h3>
+    <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Bạn đã vắng mặt 1 tiếng. Máy đào tích được: <br><b style="color:#10b981; font-size:1.5rem;">+<span id="idle-amount-text">0</span> Xu</b></p>
+    <p style="text-align: center; color: #facc15; font-size: 0.8rem;">Hãy Vượt Link để nhận số Xu này và tiếp tục cày!</p>
+    <button class="btn btn-purple" onclick="window.open('https://sanlink247.com', '_blank')">1. Bấm Để Vượt Link</button>
+    <button class="btn btn-gold" style="margin-top:20px;" onclick="claimIdle()">2. Đã Hoàn Thành Vượt Link</button>
+  </div>
+</div>
+
 <div class="bottom-nav">
   <div class="nav-item active" onclick="nav('tap', this)"><span>⛏</span>Đào Xu</div>
   <div class="nav-item" onclick="nav('task', this)"><span>🎯</span>Nhiệm Vụ</div>
@@ -97,12 +107,13 @@
 </div>
 
 <script>
-  const API_URL = "https://taptoearn-backend.congle4443.workers.dev"; // GIỮ NGUYÊN LINK NÀY
+  const API_URL = "https://taptoearn-backend.congle4443.workers.dev";
   const tg = window.Telegram.WebApp; tg.expand(); tg.disableVerticalSwipes();
   function nav(id, el) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('screen-' + id).classList.add('active'); el.classList.add('active');
+    document.getElementById('screen-' + id).classList.add('active'); 
+    if(el) el.classList.add('active');
   }
 
   let tg_id = "nguoi_choi_test"; let tg_name = "Guest"; let initData = "";
@@ -144,13 +155,24 @@
       });
       let json = await res.json();
       tg.MainButton.hideProgress();
+      if(json.requires_link) {
+        document.getElementById('idle-amount-text').innerText = json.idle_amount;
+        nav('lock'); // Hiện bảng khóa
+        return;
+      }
       if(json.error) return alert("❌ " + json.error);
       if(json.success) {
         updateUI(json.user);
         if(json.msg) alert("✅ " + json.msg);
-        else alert("✅ Giao dịch thành công!");
       }
     } catch(e) { tg.MainButton.hideProgress(); alert("Lỗi mạng!"); }
+  }
+
+  function claimIdle() {
+    sendApi("claim_idle").then(() => {
+      nav('tap', document.querySelectorAll('.nav-item')[0]);
+      alert("✅ Nhận thưởng thành công!");
+    });
   }
 
   function withdraw() {
@@ -172,18 +194,16 @@
         fetch(API_URL, {
           method: "POST", headers: {"Content-Type": "application/json"},
           body: JSON.stringify({ action: "tap", taps: t, tg_id: tg_id, tg_name: tg_name, initData: initData })
-        }).then(r=>r.json()).then(j => { if(j.success) updateUI(j.user); });
+        }).then(r=>r.json()).then(j => { 
+          if(j.requires_link) { document.getElementById('idle-amount-text').innerText = j.idle_amount; nav('lock'); }
+          else if(j.success) updateUI(j.user); 
+        });
       }, 1000);
     }
   });
 
   setInterval(() => { if(nrg < 1000) { nrg++; updateNrgUI(); } }, 1000);
-  
-  // Khởi động
-  fetch(API_URL, {
-    method: "POST", headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ action: "sync", tg_id: tg_id, tg_name: tg_name, initData: initData })
-  }).then(r=>r.json()).then(j => { if(j.success) updateUI(j.user); });
+  sendApi("sync");
 </script>
 </body>
 </html>
