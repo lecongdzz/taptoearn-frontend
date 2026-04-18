@@ -109,9 +109,10 @@
   <div class="card" style="border-color: #ef4444;">
     <h3 style="color: #fca5a5;">🛑 MÁY ĐÀO ĐÃ ĐẦY</h3>
     <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Bạn đã vắng mặt 1 tiếng. Tích được: <br><b style="color:#10b981; font-size:1.5rem;">+<span id="idle-amount-text">0</span> Xu</b></p>
-    <p style="text-align: center; color: #facc15; font-size: 0.8rem;">Hãy Vượt Link để nhận Xu & cày tiếp!</p>
-    <button class="btn btn-purple" onclick="window.open('https://sanlink247.com', '_blank')">1. Bấm Để Vượt Link</button>
-    <button class="btn btn-gold" style="margin-top:20px;" onclick="claimIdle()">2. Đã Hoàn Thành Vượt Link</button>
+    <p style="text-align: center; color: #facc15; font-size: 0.8rem;">Hãy Vượt Link Đánh Giá 5 Sao để nhận Xu!</p>
+    <button class="btn btn-purple" onclick="window.open('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka', '_blank')">1. Bấm Vượt Link & Đánh Giá</button>
+    <input type="text" id="review-input" placeholder="Dán bình luận của bạn vào đây..." style="margin-top: 15px; border-color: #facc15;">
+    <button class="btn btn-gold" style="margin-top:10px;" onclick="claimIdle()">2. Đã Hoàn Thành Vượt Link</button>
   </div>
 </div>
 
@@ -155,7 +156,7 @@
 
   function copyRef() {
     let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy");
-    alert("Đã copy Link!");
+    alert("Đã copy Link Mời Bạn!");
   }
 
   let bal = 0; let nrg = 1000; let gold = 0; let mLvl = 0; let tapC = 0; let tapT;
@@ -193,6 +194,8 @@
   }
 
   function claimIdle() {
+    let rev = document.getElementById('review-input').value;
+    if(!rev) return alert("⚠️ Bạn phải dán bình luận đánh giá vào ô trước mới được nhận!");
     document.getElementById('screen-lock').style.display = 'none';
     sendApi("claim_idle").then(() => alert("✅ Nhận thưởng thành công!"));
   }
