@@ -7,21 +7,23 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   body { background: linear-gradient(135deg, #0f172a, #1e1b4b); color: white; font-family: sans-serif; margin: 0; overflow: hidden; user-select: none; }
-  .screen { display: none; flex-direction: column; align-items: center; height: 100vh; padding-top: 60px; padding-bottom: 90px; overflow-y: auto; width: 100%;}
+  .snow-coin { position: fixed; top: -10%; z-index: 0; font-size: 1.5rem; pointer-events: none; animation: fall linear forwards; opacity: 0.6; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+  .screen { display: none; flex-direction: column; align-items: center; height: 100vh; padding-top: 60px; padding-bottom: 90px; overflow-y: auto; width: 100%; position: relative; z-index: 10;}
   .screen.active { display: flex; }
   .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(30,41,59,0.9); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 100; }
   .nav-item { color: #94a3b8; font-size: 0.8rem; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 20%;}
-  .nav-item span { font-size: 1.4rem; margin-bottom: 3px;}
   .nav-item.active { color: #facc15; }
-  .card { background: rgba(255,255,255,0.05); width: 85%; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
+  .nav-item span { font-size: 1.4rem; margin-bottom: 3px;}
+  .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(5px); width: 85%; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
   .card h3 { color: #facc15; margin-top: 0; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
-  #balance { font-size: 3.2rem; font-weight: 900; color: #facc15; margin-bottom: 5px; }
-  .stats-row { display: flex; justify-content: space-around; width: 90%; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; font-weight: bold; margin-bottom: 20px; }
+  #balance { font-size: 3.2rem; font-weight: 900; color: #facc15; margin-bottom: 5px; text-shadow: 0 0 10px rgba(250,204,21,0.5);}
+  .stats-row { display: flex; justify-content: space-around; width: 90%; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; font-weight: bold; margin-bottom: 20px; }
   .stats-row span { color: #cbd5e1; font-size: 0.85rem; text-align: center; display: flex; flex-direction: column;}
   .stats-row .highlight { color: #facc15; font-size: 1.2rem; margin-top: 5px;}
   .stats-row .money { color: #10b981; font-size: 1.2rem; margin-top: 5px;}
-  #coin { width: 200px; height: 200px; background: radial-gradient(circle, #fef08a 0%, #eab308 50%, #a16207 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5rem; color: #713f12; font-weight: bold; margin-bottom: 20px; border: 4px solid #fef08a; transition: transform 0.05s;}
-  #coin:active { transform: scale(0.92); }
+  #coin { width: 200px; height: 200px; background: radial-gradient(circle, #fef08a 0%, #eab308 50%, #a16207 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5rem; color: #713f12; font-weight: bold; margin-bottom: 20px; border: 4px solid #fef08a; transition: transform 0.05s; box-shadow: 0 10px 30px rgba(234,179,8,0.4);}
+  #coin:active { transform: scale(0.92); box-shadow: 0 5px 15px rgba(234,179,8,0.4);}
   .progress-container { width: 85%; background: rgba(0,0,0,0.5); border-radius: 20px; height: 25px; border: 2px solid rgba(255,255,255,0.1); }
   .progress-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #eab308, #facc15); border-radius: 15px; transition: width 0.2s;}
   #energy-text { margin-top: 10px; font-weight: bold; color: #fbd38d; font-size: 1.1rem; }
@@ -30,16 +32,10 @@
   .btn-gold { background: linear-gradient(90deg, #eab308, #ca8a04); color: #000; }
   .btn-purple { background: linear-gradient(90deg, #8b5cf6, #6d28d9); }
   .btn-green { background: linear-gradient(90deg, #10b981, #047857); }
-  
-  /* Thêm tag Tên & Admin */
   .user-tag { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; border: 1px solid #334155; color: #cbd5e1; z-index: 10;}
-  .admin-tag { font-size: 0.85rem; color: #94a3b8; margin-top: 15px; text-align: center; }
-  
-  /* Bảng Top */
+  .admin-tag { font-size: 0.85rem; color: #94a3b8; margin-top: 15px; text-align: center; background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 10px;}
   .top-item { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 8px; font-weight: bold;}
   .top-item:nth-child(1) { border: 1px solid #facc15; color: #facc15; }
-  .top-item:nth-child(2) { border: 1px solid #94a3b8; color: #94a3b8; }
-  .top-item:nth-child(3) { border: 1px solid #b45309; color: #b45309; }
 </style>
 </head>
 <body>
@@ -55,7 +51,7 @@
   <div id="coin">$</div>
   <div class="progress-container"><div class="progress-bar" id="energy-bar"></div></div>
   <div id="energy-text">⚡ 1000 / 1000</div>
-  <div class="admin-tag">🛠 Hỗ trợ: @lecongdzzz</div>
+  <div class="admin-tag">🛠 Liên hệ Admin: @lecongdzzz</div>
 </div>
 
 <div id="screen-task" class="screen">
@@ -112,8 +108,8 @@
 <div id="screen-lock" class="screen" style="z-index: 999; background: rgba(0,0,0,0.95); justify-content: center; position: fixed; top: 0; left: 0;">
   <div class="card" style="border-color: #ef4444;">
     <h3 style="color: #fca5a5;">🛑 MÁY ĐÀO ĐÃ ĐẦY</h3>
-    <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Bạn đã vắng mặt 1 tiếng. Máy đào tích được: <br><b style="color:#10b981; font-size:1.5rem;">+<span id="idle-amount-text">0</span> Xu</b></p>
-    <p style="text-align: center; color: #facc15; font-size: 0.8rem;">Hãy Vượt Link để nhận Xu & tiếp tục cày!</p>
+    <p style="text-align: center; font-size: 0.9rem; color: #cbd5e1;">Bạn đã vắng mặt 1 tiếng. Tích được: <br><b style="color:#10b981; font-size:1.5rem;">+<span id="idle-amount-text">0</span> Xu</b></p>
+    <p style="text-align: center; color: #facc15; font-size: 0.8rem;">Hãy Vượt Link để nhận Xu & cày tiếp!</p>
     <button class="btn btn-purple" onclick="window.open('https://sanlink247.com', '_blank')">1. Bấm Để Vượt Link</button>
     <button class="btn btn-gold" style="margin-top:20px;" onclick="claimIdle()">2. Đã Hoàn Thành Vượt Link</button>
   </div>
@@ -128,6 +124,16 @@
 </div>
 
 <script>
+  function createSnowCoin() {
+    const c = document.createElement('div');
+    c.innerHTML = '🪙'; c.className = 'snow-coin';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.animationDuration = (Math.random() * 3 + 3) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 6000);
+  }
+  setInterval(createSnowCoin, 700);
+
   const API_URL = "https://taptoearn-backend.congle4443.workers.dev";
   const tg = window.Telegram.WebApp; tg.expand(); tg.disableVerticalSwipes();
   function nav(id, el) {
@@ -149,7 +155,7 @@
 
   function copyRef() {
     let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy");
-    alert("Đã copy Link Mời Bạn Bè!");
+    alert("Đã copy Link!");
   }
 
   let bal = 0; let nrg = 1000; let gold = 0; let mLvl = 0; let tapC = 0; let tapT;
@@ -161,10 +167,6 @@
     document.getElementById('gold-bal').innerText = gold.toLocaleString('vi-VN');
     document.getElementById('machine-lvl').innerText = mLvl;
     if(data.ref_count !== undefined) document.getElementById('ref-count').innerText = data.ref_count;
-    updateNrgUI();
-  }
-
-  function updateNrgUI() {
     document.getElementById('energy-bar').style.width = `${(nrg/1000)*100}%`;
     document.getElementById('energy-text').innerText = `⚡ ${Math.floor(nrg)} / 1000`;
   }
@@ -180,15 +182,14 @@
       tg.MainButton.hideProgress();
       if(json.requires_link) {
         document.getElementById('idle-amount-text').innerText = json.idle_amount;
-        document.getElementById('screen-lock').style.display = 'flex';
-        return;
+        document.getElementById('screen-lock').style.display = 'flex'; return;
       }
       if(json.error) return alert("❌ " + json.error);
       if(json.success) {
         if(json.user) updateUI(json.user);
         if(json.msg) alert("✅ " + json.msg);
       }
-    } catch(e) { tg.MainButton.hideProgress(); alert("Lỗi mạng! Kiểm tra kết nối."); }
+    } catch(e) { tg.MainButton.hideProgress(); alert("Lỗi mạng!"); }
   }
 
   function claimIdle() {
@@ -223,8 +224,13 @@
 
   document.getElementById('coin').addEventListener('pointerdown', (e) => {
     if(nrg > 0) {
-      bal++; nrg--; tapC++; updateNrgUI();
-      document.getElementById('balance').innerText = bal.toLocaleString('vi-VN');
+      bal++; nrg--; tapC++; updateUI({balance: bal, energy: nrg, gold: gold, machine_lvl: mLvl});
+      let sc = document.createElement('div');
+      sc.innerHTML = '✨'; sc.style.position = 'absolute';
+      sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px';
+      sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none';
+      sc.style.animation = 'fall 1s linear forwards';
+      document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
       if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
       clearTimeout(tapT); tapT = setTimeout(() => {
         let t = tapC; tapC = 0;
@@ -239,7 +245,7 @@
     }
   });
 
-  setInterval(() => { if(nrg < 1000) { nrg++; updateNrgUI(); } }, 1000);
+  setInterval(() => { if(nrg < 1000) { nrg++; updateUI({balance: bal, energy: nrg, gold: gold, machine_lvl: mLvl}); } }, 1000);
   sendApi("sync");
 </script>
 </body>
