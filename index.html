@@ -23,10 +23,10 @@
   .stats-box { display: flex; justify-content: space-around; width: 92%; background: #1e293b; border-radius: 15px; padding: 12px; margin-bottom: 15px; }
   .coin-btn { width: 220px; height: 220px; background: radial-gradient(circle, #fef08a 0%, #f59e0b 60%, #b45309 100%); border-radius: 50%; border: 4px solid #fde047; display: flex; align-items: center; justify-content: center; font-size: 6rem; color: #713f12; font-weight: 900; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.05s; }
   .coin-btn:active { transform: scale(0.92); }
-  .energy-container { width: 85%; background: #334155; border-radius: 15px; height: 16px; overflow: hidden; }
-  .energy-fill { width: 100%; height: 100%; background: #fbbf24; transition: width 0.2s;}
   
   .speed-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; width: 90%; margin-top: 15px; font-size: 0.85rem; color: #9ca3af; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+  .progress-bg { background: #334155; height: 8px; border-radius: 4px; margin-top: 5px; overflow: hidden;}
+  .progress-fill { background: #fbbf24; height: 100%; width: 0%; transition: width 0.3s;}
 
   .card { background: #1e293b; width: 92%; border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid #334155; box-sizing: border-box; }
   .card h3 { color: #fbbf24; text-align: center; margin: 0 0 10px 0; font-size: 1.1rem; }
@@ -34,7 +34,7 @@
   input:focus { border-color: #fbbf24; }
   .btn { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; transition: 0.2s; }
   .btn:active { transform: scale(0.95); }
-  .bg-gold { background: #d97706; } .bg-green { background: #059669; } .bg-blue { background: #2563eb; } .bg-purple { background: #7c3aed; }
+  .bg-gold { background: #d97706; } .bg-green { background: #059669; } .bg-blue { background: #2563eb; }
   
   .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px 0 20px 0; border-top: 1px solid #334155; z-index: 100;}
   .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; }
@@ -61,43 +61,34 @@
   <div class="coin-btn" id="coin">$</div>
   
   <div class="speed-box">
-    🚀 Tốc độ: <b style="color:#34d399;" id="speed-text">100 kH/s = 1 Xu/s = 3.600 Xu/h</b><br>
-    ⚠️ Trạng thái: <span id="job-status" style="color:#10b981;">Đang Đào Tốt</span>
+    🚀 Tốc độ: <b style="color:#34d399;" id="speed-text">200.000 Xu / 6 Giờ</b><br>
+    <div style="margin-top:8px; font-size: 0.8rem; color:#cbd5e1; text-align:left;">
+      Tiến độ tới Min Rút (4 Triệu Xu): <span id="wd-percent" style="float:right;">0%</span>
+      <div class="progress-bg"><div class="progress-fill" id="wd-progress"></div></div>
+    </div>
   </div>
 
-  <div style="margin-top:20px;"><a href="https://t.me/lecongdzzz" target="_blank" style="color:#94a3b8; text-decoration:none; font-size:0.8rem; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px;">🛠 Liên hệ Admin: @lecongdzzz</a></div>
+  <div style="margin-top:20px;"><button class="btn bg-green" onclick="claimIdle()" style="padding: 8px 20px; font-size:0.9rem; border-radius:20px;">📦 NHẬN XU VÀO KHO</button></div>
 </div>
 
 <div id="screen-task" class="screen">
   <div class="card" style="border: 1px solid #fbbf24;">
     <h3>🎯 NHIỆM VỤ HẰNG NGÀY</h3>
-    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong quay lại Bot gõ <code>/baocao [Nội dung]</code> để Admin duyệt nhé!</p>
+    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong hãy bấm Báo cáo để Admin duyệt!</p>
     
     <div class="job-item">
-      <div class="job-title">1. Review TripAdvisor (Android/PC)</div>
-      💰 Thưởng: <b style="color:#fbbf24;">1.500đ</b><br>
+      <div class="job-title">1. Nhiệm vụ link đối tác</div>
+      💰 Thưởng: <b style="color:#fbbf24;">100đ + 50.000 Xu</b> (Còn 1/1 lượt)<br>
       <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="window.open('https://linktot.net/20254tl_tr.tr', '_blank')">🔗 Làm Nhiệm Vụ</button>
     </div>
     
     <div class="job-item">
-      <div class="job-title">2. Tìm Maps</div>
-      💰 Thưởng: <b style="color:#fbbf24;">100đ</b><br>
+      <div class="job-title">2. Khảo sát nội bộ</div>
+      💰 Thưởng: <b style="color:#fbbf24;">150đ + 80.000 Xu</b> (Còn 1/1 lượt)<br>
       <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="window.open('https://linktot.net/rv/20254tl_tm.key', '_blank')">🔗 Làm Nhiệm Vụ</button>
     </div>
     
-    <div class="job-item">
-      <div class="job-title">3. Tải & Review App (Android/iOS)</div>
-      💰 Thưởng: <b style="color:#fbbf24;">500đ</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="window.open('https://linktot.net/20254tl_tr.ap', '_blank')">🔗 Làm Nhiệm Vụ</button>
-    </div>
-    
-    <div class="job-item">
-      <div class="job-title">4. Đánh giá Map (Tân thủ/Thường)</div>
-      💰 Thưởng: <b style="color:#fbbf24;">2.000đ</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="window.open('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka', '_blank')">🔗 Làm Nhiệm Vụ</button>
-    </div>
-    
-    <button class="btn bg-green" onclick="alert('Hãy thoát ra màn hình Chat Bot Telegram, và gõ lệnh: \n/baocao [Nhiệm vụ bạn vừa làm]')">📝 Báo Cáo Hoàn Thành (Ở Bot)</button>
+    <button class="btn bg-green" onclick="alert('Hãy đóng Mini App, ra ngoài khung Chat Telegram và gửi lệnh:\n/baocao [Tên nhiệm vụ bạn đã làm]\nVí dụ: /baocao Khảo sát nội bộ')">📝 Báo Cáo Hoàn Thành (Tại Bot)</button>
   </div>
 </div>
 
@@ -110,43 +101,58 @@
 
 <div id="screen-shop" class="screen">
   <div class="card">
-    <h3 style="color:#10b981;">🚀 NÂNG CẤP TỐC ĐỘ ĐÀO</h3>
+    <h3 style="color:#10b981;">🚀 NÂNG CẤP MÁY ĐÀO</h3>
     <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; margin-bottom:15px;">
       <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp hiện tại:</span><br><span id="machine-lvl" style="color:#34d399; font-weight:bold; font-size:1.3rem;">Lv 1</span></div>
       <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Phí lên cấp:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
     </div>
-    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+5 kH/s)</button>
+    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50k Xu/6h)</button>
   </div>
   <div class="card">
-    <h3>🔄 SÀN GIAO DỊCH VÀNG</h3>
-    <p style="text-align:center; font-size:0.9rem; color:#9ca3af; background:rgba(0,0,0,0.3); padding:10px; border-radius:10px;">Tỷ giá: 100 Xu = 1 Vàng</p>
-    <button class="btn bg-gold" onclick="sendApi('exchange', 'c2g')">Mua Vàng (Tốn 100 Xu)</button>
-    <button class="btn" style="background:#374151; margin-top:10px;" onclick="sendApi('exchange', 'g2c')">Bán Vàng (Nhận 100 Xu)</button>
+    <h3>🔄 SÀN ĐỔI VÀNG</h3>
+    <p style="text-align:center; font-size:0.9rem; color:#9ca3af; background:rgba(0,0,0,0.3); padding:10px; border-radius:10px;">Tỷ giá: 100.000 Xu = 100 Vàng</p>
+    <button class="btn bg-gold" onclick="sendApi('exchange', 'c2g')">Mua 100 Vàng (Tốn 100k Xu)</button>
   </div>
 </div>
 
 <div id="screen-bank" class="screen">
   <div class="card">
-    <h3 style="color:#fca5a5;">🏦 ĐIỀN FORM RÚT TIỀN</h3>
-    <input type="text" id="wd-bank" placeholder="Ngân Hàng (VD: MB)">
-    <input type="number" id="wd-stk" placeholder="Số Tài Khoản">
-    <input type="text" id="wd-name" placeholder="Tên Chủ Thẻ (IN HOA)">
-    <input type="number" id="wd-amt" placeholder="Số tiền/xu muốn rút">
+    <h3 style="color:#fca5a5;">🏦 FORM RÚT TIỀN</h3>
+    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; color:#cbd5e1;">
+      🔹 <b>Số Xu hiện có:</b> <span id="wd-current-xu" style="color:#fbbf24; font-weight:bold;">0</span><br>
+      🔹 <b>Min rút:</b> <span style="color:#fca5a5;">4.000.000 Xu = 2.000đ</span><br>
+      🔹 <b>Phí giao dịch:</b> 0%
+    </div>
+    
+    <input type="text" id="wd-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
+    <input type="number" id="wd-stk" placeholder="Số Tài Khoản / SĐT">
+    <input type="text" id="wd-name" placeholder="Tên Chủ Tài Khoản (IN HOA)">
+    <input type="number" id="wd-amt" placeholder="Số Xu muốn rút (Tối thiểu 4.000.000)" oninput="calcWd()">
+    
+    <div style="text-align:center; margin-top:10px; font-size:0.9rem;">
+      Thực nhận dự kiến: <b style="color:#34d399; font-size: 1.2rem;" id="wd-expect">0đ</b>
+    </div>
     <button class="btn bg-gold" onclick="withdraw()">Gửi Yêu Cầu Cho Admin</button>
+  </div>
+  <div class="card">
+    <h3>📜 LỊCH SỬ RÚT TIỀN</h3>
+    <div id="withdraw-history" style="max-height: 120px; overflow-y: auto; text-align: left; font-size:0.8rem;">
+      <center><small>Chưa có lịch sử</small></center>
+    </div>
   </div>
 </div>
 
 <div id="screen-lock" class="screen" style="z-index:999; background:rgba(15,23,42,0.98); justify-content:center; position:fixed; top:0; left:0;">
   <div class="card" style="border-color:#10b981; box-shadow: 0 0 30px rgba(16,185,129,0.2);">
-    <h3 style="font-size:1.5rem; color:#34d399;">CHÀO MỪNG TRỞ LẠI!</h3>
-    <p style="text-align:center; color:#9ca3af; margin-bottom:5px;">Kho chứa đã đầy, bạn nhận được:</p>
+    <h3 style="font-size:1.5rem; color:#34d399; text-align:center;">KHO XU ĐÃ ĐẦY!</h3>
+    <p style="text-align:center; color:#9ca3af; margin-bottom:5px;">Bạn đã đào được tối đa 6h, nhận được:</p>
     <p style="text-align:center; margin: 0;"><b style="color:#fbbf24; font-size:3rem;">+<span id="idle-amount-text">0</span> Xu</b></p>
-    <button class="btn bg-green" style="margin-top:20px;" onclick="claimIdle()">✅ Xác Thực & Nhận Xu</button>
+    <button class="btn bg-green" style="margin-top:20px;" onclick="claimIdle()">✅ Nhận Xu & Đào Tiếp</button>
   </div>
 </div>
 
 <div class="bottom-nav">
-  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.5rem">⛏</div>Trang Chủ</div>
+  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.5rem">⛏</div>Đào</div>
   <div class="nav-item" onclick="nav('task', this)"><div style="font-size:1.5rem">🎯</div>Nhiệm Vụ</div>
   <div class="nav-item" onclick="nav('top', this); loadTop();"><div style="font-size:1.5rem">🏆</div>Đua Top</div>
   <div class="nav-item" onclick="nav('shop', this)"><div style="font-size:1.5rem">🛒</div>Cửa Hàng</div>
@@ -167,9 +173,7 @@
   let tg_id = "test_123", tg_name = "Guest", initData = "";
   try {
     const tg = window.Telegram.WebApp; tg.expand();
-    if(tg.initDataUnsafe.user) {
-      tg_id = tg.initDataUnsafe.user.id.toString(); tg_name = tg.initDataUnsafe.user.first_name; initData = tg.initData;
-    }
+    if(tg.initDataUnsafe.user) { tg_id = tg.initDataUnsafe.user.id.toString(); tg_name = tg.initDataUnsafe.user.first_name; initData = tg.initData; }
   } catch(e){}
   document.getElementById('player-name').innerText = tg_name;
 
@@ -179,26 +183,38 @@
     document.getElementById('screen-' + id).classList.add('active'); el.classList.add('active');
   }
 
-  let current_xu_per_sec = 1;
+  let current_rate = 200000;
   let current_bal = 0;
+
+  function calcWd() {
+    let amt = parseInt(document.getElementById('wd-amt').value) || 0;
+    let vnd = Math.floor(amt / 2000); // Tỷ lệ 4M = 2k -> 1đ = 2000 xu
+    document.getElementById('wd-expect').innerText = vnd.toLocaleString('vi-VN') + "đ";
+  }
 
   function updateUI(data) {
     current_bal = data.balance;
     document.getElementById('balance').innerText = current_bal.toLocaleString('vi-VN').replace(/,/g, '.');
+    document.getElementById('wd-current-xu').innerText = current_bal.toLocaleString('vi-VN').replace(/,/g, '.');
     document.getElementById('gold-bal').innerText = (data.gold||0).toLocaleString('vi-VN').replace(/,/g, '.');
     document.getElementById('vnd-bal').innerText = (data.vnd||0).toLocaleString('vi-VN').replace(/,/g, '.') + "đ";
     
     let lvl = data.machine_lvl || 1;
+    current_rate = data.rate || 200000;
     document.getElementById('player-lvl').innerText = "Lv " + lvl;
     document.getElementById('machine-lvl').innerText = "Lv " + lvl;
-    let khs = 100 + ((lvl - 1) * 5); 
-    current_xu_per_sec = 1 + ((lvl - 1) * 0.05); 
-    let xuh = Math.floor(current_xu_per_sec * 3600); 
-    document.getElementById('speed-text').innerText = `${khs} kH/s = ${current_xu_per_sec.toFixed(2)} Xu/s = ${xuh.toLocaleString('vi-VN').replace(/,/g, '.')} Xu/h`;
+    document.getElementById('speed-text').innerText = `${current_rate.toLocaleString('vi-VN').replace(/,/g, '.')} Xu / 6 Giờ`;
     
-    let stat = document.getElementById('job-status');
-    if(data.needs_job) { stat.innerText = "Đã khóa! Hãy làm 1 Job báo cáo Admin."; stat.style.color = "#ef4444"; current_xu_per_sec = 0;}
-    else { stat.innerText = "Đang Đào Tốt"; stat.style.color = "#10b981"; }
+    // TIẾN ĐỘ MIN RÚT
+    let percent = Math.min((current_bal / 4000000) * 100, 100);
+    document.getElementById('wd-percent').innerText = percent.toFixed(1) + "%";
+    document.getElementById('wd-progress').style.width = percent + "%";
+
+    if(data.history) {
+      let h = ""; let items = data.history.split('|').filter(i => i.trim() !== "");
+      items.reverse().forEach(item => { h += `<div class="hist-item">${item}</div>`; });
+      document.getElementById('withdraw-history').innerHTML = h || "<center><small>Chưa có dữ liệu</small></center>";
+    }
   }
 
   async function sendApi(action, data) {
@@ -208,9 +224,6 @@
       if(action === 'sync' && j.is_full) { 
         document.getElementById('idle-amount-text').innerText = j.idle_amount.toLocaleString('vi-VN').replace(/,/g, '.'); 
         document.getElementById('screen-lock').style.display = 'flex'; return; 
-      }
-      if(j.error && j.error.includes("24h")) {
-        alert(j.error); nav('task', document.querySelectorAll('.nav-item')[1]); document.getElementById('screen-lock').style.display = 'none'; return;
       }
       if(j.success) { updateUI(j.user); if(j.msg && action !== 'sync') alert("✅ " + j.msg); } 
       else if (j.error) { alert("❌ " + j.error); }
@@ -227,30 +240,30 @@
     .then(r=>r.json()).then(j => {
       if(j.success) {
         let html = ""; j.top.forEach((u, i) => { html += `<div class='top-row'><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)} ${u.tg_name} <small style='color:#fbbf24'>(Lv.${u.machine_lvl})</small></span> <span style='color:#34d399'>${u.balance.toLocaleString('vi-VN').replace(/,/g, '.')} Xu</span></div>`; });
-        document.getElementById('top-list').innerHTML = html || "Chưa có ai!";
+        let rankStr = j.my_rank > 99 ? "99+" : j.my_rank;
+        html += `<div class='top-row' style='margin-top:15px; border-top: 2px dashed #fbbf24; border-radius:0; padding-top:15px; background: transparent;'><span>🎖 Hạng của bạn: <b style="color:white;">Top ${rankStr}</b></span><span style='color:#fbbf24'>Lv.${j.my_lvl}</span></div>`;
+        document.getElementById('top-list').innerHTML = html;
       }
     });
   }
 
   function claimIdle() { document.getElementById('screen-lock').style.display = 'none'; sendApi("claim_idle"); }
 
-  // CHỈ CÓ HIỆU ỨNG KHI BẤM COIN (KHÔNG CỘNG TIỀN TAY)
+  // CHỈ CÓ HIỆU ỨNG KHI BẤM COIN
   document.getElementById('coin').onclick = (e) => {
     let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
     try { window.Telegram.WebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
   };
   
-  // TỰ ĐỘNG NHẢY TIỀN THEO TỐC ĐỘ (HIỂU ỨNG UI)
+  // HIỆU ỨNG TỰ NHẢY TIỀN 
   setInterval(() => {
-    if(current_xu_per_sec > 0) {
-      current_bal += current_xu_per_sec;
-      document.getElementById('balance').innerText = Math.floor(current_bal).toLocaleString('vi-VN').replace(/,/g, '.');
-    }
+    let xu_per_sec = current_rate / 21600;
+    current_bal += xu_per_sec;
+    document.getElementById('balance').innerText = Math.floor(current_bal).toLocaleString('vi-VN').replace(/,/g, '.');
   }, 1000);
 
-  // ĐỒNG BỘ SERVER 1 PHÚT 1 LẦN THAY VÌ 3S ĐỂ CHỐNG LAG
   setInterval(() => sendApi('sync'), 60000); sendApi('sync');
 </script>
 </body>
-        </html>
+  </html>
   
