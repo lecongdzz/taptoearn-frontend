@@ -46,8 +46,8 @@
 </style>
 </head>
 <body>
-<div class="version-tag">Bản V29</div>
-<div class="user-tag">👤 <span id="player-name">...</span></div>
+<div class="version-tag">Bản V30</div>
+<div class="user-tag">👤 <span id="player-name">Đang tải...</span></div>
 <div id="screen-tap" class="screen active">
   <div id="balance">0</div>
   <div class="stats-row">
@@ -57,7 +57,9 @@
   <div id="coin">$</div>
   <div class="progress-container"><div class="progress-bar" id="energy-bar"></div></div>
   <div id="energy-text">⚡ 1000 / 1000</div>
-  <div style="font-size:0.85rem; color:#94a3b8; margin-top:20px; font-weight:bold;">🛠 Hỗ trợ: @lecongdzzz</div>
+  <div style="font-size:0.9rem; color:#94a3b8; margin-top:20px; font-weight:bold; background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 20px;">
+    🛠 Hỗ trợ: <a href="https://t.me/lecongdzzz" target="_blank" style="color: #fbbf24; text-decoration: none;">@lecongdzzz</a>
+  </div>
 </div>
 
 <div id="screen-task" class="screen">
@@ -169,10 +171,10 @@
         initData = tg.initData;
       }
     }
-  } catch(e) { console.log("Lỗi TG"); }
+  } catch(e) {}
   
   document.getElementById('player-name').innerText = tg_name;
-  document.getElementById('ref-link').value = `https://t.me/BotCuaSep_bot?start=ref_${tg_id}`;
+  document.getElementById('ref-link').value = "https://t.me/BotCuaSep_bot?start=ref_" + tg_id;
   
   function nav(id, el) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -186,13 +188,13 @@
   function updateUI(data) {
     bal = data.balance; nrg = data.energy; gold = data.gold || 0; mLvl = data.machine_lvl || 0;
     document.getElementById('balance').innerText = bal.toLocaleString('vi-VN');
-    document.getElementById('vnd-bal').innerText = Math.floor(bal * 0.0005).toLocaleString('vi-VN') + 'đ';
+    document.getElementById('vnd-bal').innerText = Math.floor(bal * 0.0005).toLocaleString('vi-VN') + "đ";
     document.getElementById('gold-bal').innerText = gold.toLocaleString('vi-VN');
     document.getElementById('machine-lvl').innerText = mLvl;
     if(data.ref_count !== undefined) document.getElementById('ref-count').innerText = data.ref_count;
     if(data.ref_coin !== undefined) document.getElementById('ref-coin').innerText = parseInt(data.ref_coin).toLocaleString('vi-VN');
-    document.getElementById('energy-bar').style.width = `${(nrg/1000)*100}%`;
-    document.getElementById('energy-text').innerText = `⚡ ${Math.floor(nrg)} / 1000`;
+    document.getElementById('energy-bar').style.width = ((nrg/1000)*100) + "%";
+    document.getElementById('energy-text').innerText = "⚡ " + Math.floor(nrg) + " / 1000";
   }
 
   async function sendApi(action, dataStr = null) {
@@ -202,19 +204,19 @@
       if(json.requires_link) { document.getElementById('idle-amount-text').innerText = json.idle_amount; document.getElementById('screen-lock').style.display = 'flex'; return; }
       if(json.error) return alert("❌ " + json.error);
       if(json.success) { if(json.user) updateUI(json.user); if(json.msg) alert("✅ " + json.msg); }
-    } catch(e) { alert("Lỗi kết nối mạng, vui lòng thử lại!"); }
+    } catch(e) { 
+      alert("Lỗi kết nối máy chủ! Hãy tắt app mở lại hoặc chờ vài giây."); 
+    }
   }
 
   function claimIdle() { let rev = document.getElementById('review-input').value; if(!rev) return alert("⚠️ Bạn phải dán bình luận đã đánh giá vào ô!"); document.getElementById('screen-lock').style.display = 'none'; sendApi("claim_idle", rev).then(() => { alert("✅ Đã ghi nhận! Bạn có thể tiếp tục đào."); document.getElementById('review-input').value = ""; }); }
   function withdraw() { let b = document.getElementById('wd-bank').value; let s = document.getElementById('wd-stk').value; let n = document.getElementById('wd-name').value; let a = document.getElementById('wd-amt').value; if(!b || !s || !n || !a) return alert("Vui lòng điền đủ thông tin!"); sendApi("withdraw", { bank: b, stk: s, name: n, amount: a }); }
   function withdrawRef() { let b = document.getElementById('ref-bank').value; let s = document.getElementById('ref-stk').value; let n = document.getElementById('ref-name').value; let a = document.getElementById('ref-amt').value; if(!b || !s || !n || !a) return alert("Vui lòng điền đủ thông tin rút tiền Giới Thiệu!"); sendApi("withdraw_ref", { bank: b, stk: s, name: n, amount: a }); }
-  function loadTop() { document.getElementById('top-list').innerHTML = "Đang tải dữ liệu..."; fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ action: "get_top", tg_id: tg_id, initData: initData }) }).then(r=>r.json()).then(j => { if(j.success) { let html = ""; j.top.forEach((u, i) => { html += `<div class="top-item"><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)} ${u.tg_name}</span> <span style="color:#fbbf24">${u.balance.toLocaleString()} Xu</span></div>`; }); document.getElementById('top-list').innerHTML = html; } }); }
+  function loadTop() { document.getElementById('top-list').innerHTML = "Đang tải dữ liệu..."; fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ action: "get_top", tg_id: tg_id, initData: initData }) }).then(r=>r.json()).then(j => { if(j.success) { let html = ""; j.top.forEach((u, i) => { html += "<div class='top-item'><span>" + (i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)) + " " + u.tg_name + "</span> <span style='color:#fbbf24'>" + u.balance.toLocaleString() + " Xu</span></div>"; }); document.getElementById('top-list').innerHTML = html; } }); }
 
   document.getElementById('coin').addEventListener('pointerdown', (e) => {
     if(nrg > 0) {
       bal++; nrg--; tapC++; let rc = document.getElementById('ref-coin').innerText.replace(/\./g,''); updateUI({balance: bal, energy: nrg, gold: gold, machine_lvl: mLvl, ref_coin: rc});
       let sc = document.createElement('div'); sc.innerHTML = '💰'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2.5rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
       try { window.Telegram.WebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
-      clearTimeout(tapT); tapT = setTimeout(() => { let t = tapC; tapC = 0; fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ action: "tap", taps: t, tg_id: tg_id, tg_name: tg_name, initData: initData }) }).then(r=>r.json()).then(j => { if(j.requires_link) { document.getElementById('idle-amount-text').innerText = j.idle_amount; document.getElementById('screen-lock').style.display = 'flex'; } else if(j.success) updateUI(j.user); }); }, 1000);
-    }
-  
+      clearTimeout(tapT); tapT = setTimeout(() => { let t = tapC; tapC = 0; fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ action: "tap", taps: t, tg_id: tg_id, tg_name: tg_name, initData: initData }) }).then(r=>r.json()).then(j
