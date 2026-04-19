@@ -328,4 +328,20 @@
   function claimIdle() { document.getElementById('screen-lock').style.display = 'none'; sendApi("claim_idle"); }
 
   document.getElementById('coin').onclick = (e) => {
-    let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'
+    let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
+    try { tgWebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
+  };
+  
+  // TỰ NHẢY TIỀN THEO GIÂY (NẾU KHÔNG BỊ KHÓA 24H)
+  setInterval(() => {
+    if(!is_locked_job) {
+      let xu_per_sec = current_rate / 21600; 
+      current_bal += xu_per_sec;
+      document.getElementById('balance').innerText = Math.floor(current_bal).toLocaleString('vi-VN').replace(/,/g, '.');
+    }
+  }, 1000);
+
+  setInterval(() => sendApi('sync'), 60000); sendApi('sync');
+</script>
+</body>
+</html>
