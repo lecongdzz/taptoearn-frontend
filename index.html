@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hệ Thống Đào Coin Pro</title>
+<title>Hệ Thống Đào Coin V10</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
   body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow: hidden; user-select: none; }
   
+  /* HIỆU ỨNG MƯA ĐỒNG XU */
   #snow-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; overflow: hidden; }
   .snow-coin { position: absolute; top: -10%; font-size: 1.8rem; animation: fall linear forwards; opacity: 0.8; text-shadow: 0 0 10px rgba(251,191,36,0.6); }
   @keyframes fall { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(115vh) rotate(720deg); } }
@@ -35,8 +36,9 @@
   .btn:active { transform: scale(0.95); }
   .bg-gold { background: #d97706; } .bg-green { background: #059669; } .bg-blue { background: #2563eb; } .bg-purple { background: #7c3aed; }
   
+  /* MENU 6 TABS */
   .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px 0 15px 0; border-top: 1px solid #334155; z-index: 100;}
-  .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-weight: bold; }
+  .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
   .nav-item.active { color: #fbbf24; }
   .top-row { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 8px; font-weight: bold; align-items: center;}
   
@@ -69,7 +71,7 @@
   </div>
 
   <div style="margin-top:15px;"><button class="btn bg-green" onclick="claimIdle()" style="padding: 8px 20px; font-size:0.9rem; border-radius:20px;">📦 LẤY XU VÀO KHO</button></div>
-  <div style="margin-top:15px; font-size:0.8rem; color:#94a3b8; font-weight:bold;">🛠 Liên hệ Admin: <a href="https://t.me/lecongdzzz" style="color:#fbbf24;">@lecongdzzz</a></div>
+  <div style="margin-top:15px; font-size:0.8rem; color:#94a3b8; font-weight:bold;">🛠 Liên hệ Admin: <a href="https://t.me/lecongdzzz" target="_blank" style="color:#fbbf24;">@lecongdzzz</a></div>
 </div>
 
 <div id="screen-ref" class="screen">
@@ -81,7 +83,7 @@
     </div>
     
     <div class="stats-box" style="background:rgba(0,0,0,0.3); border:none; margin-bottom:10px;">
-      <div style="text-align:center"><span>👥 Đã mời</span><br><b style="color:#34d399; font-size:1.5rem;" id="ref-count">0</b></div>
+      <div style="text-align:center"><span>👥 Đã mời thành công</span><br><b style="color:#34d399; font-size:1.5rem;" id="ref-count">0</b></div>
     </div>
 
     <input type="text" id="ref-link" readonly>
@@ -92,31 +94,33 @@
 <div id="screen-task" class="screen">
   <div class="card" style="border: 1px solid #fbbf24;">
     <h3>🎯 NHIỆM VỤ HẰNG NGÀY</h3>
-    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong hãy đóng App, về Bot Telegram gõ <code>/baocao [Tên Job]</code> để Admin duyệt tiền nhé!</p>
+    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong đóng App, về Bot Telegram gõ <code>/baocao [Tên Job]</code> để Admin duyệt nhé!</p>
     
     <div class="job-item">
       <div class="job-title">1. Nhiệm vụ link đối tác</div>
       💰 Thưởng: <b style="color:#fbbf24;">100đ + 50.000 Xu</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link Khảo Sát</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link Nhiệm Vụ</button>
     </div>
     
     <div class="job-item">
       <div class="job-title">2. Khảo sát nội bộ</div>
       💰 Thưởng: <b style="color:#fbbf24;">150đ + 80.000 Xu</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://linktot.net/rv/20254tl_tm.key')">🔗 Mở Link Khảo Sát</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/rv/20254tl_tm.key')">🔗 Mở Link Khảo Sát</button>
     </div>
     
     <div class="job-item">
       <div class="job-title">3. Tải App / Phản hồi nội bộ</div>
       💰 Thưởng: <b style="color:#fbbf24;">500đ</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://linktot.net/20254tl_tr.ap')">🔗 Mở Link Cài App</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.ap')">🔗 Mở Link Cài App</button>
     </div>
 
     <div class="job-item">
       <div class="job-title">4. Đánh giá hệ thống (Tân thủ)</div>
       💰 Thưởng: <b style="color:#fbbf24;">2.000đ</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka')">🔗 Mở Link Đánh Giá</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka')">🔗 Mở Link Đánh Giá</button>
     </div>
+    
+    <button class="btn bg-green" onclick="alert('Hãy ĐÓNG ỨNG DỤNG NÀY.\nRa ngoài khung chat với Bot Telegram.\nGõ lệnh: /baocao [Tên nhiệm vụ vừa làm]')">📝 Hướng Dẫn Báo Cáo</button>
   </div>
 </div>
 
@@ -140,7 +144,7 @@
       <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp hiện tại:</span><br><span id="machine-lvl2" style="color:#34d399; font-weight:bold; font-size:1.3rem;">Lv 1</span></div>
       <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Phí lên cấp:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
     </div>
-    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50k Xu/6h)</button>
+    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50.000 Xu/6h)</button>
   </div>
   
   <div class="card">
@@ -159,8 +163,8 @@
     </div>
     <input type="text" id="wd-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
     <input type="number" id="wd-stk" placeholder="Số Tài Khoản / SĐT">
-    <input type="text" id="wd-name" placeholder="Tên Chủ Tài Khoản (IN HOA)">
-    <input type="number" id="wd-amt" placeholder="Số Xu rút (Tối thiểu 6 Triệu)" oninput="calcWd()">
+    <input type="text" id="wd-name" placeholder="Tên Chủ TK (IN HOA)">
+    <input type="number" id="wd-amt" placeholder="Số Xu rút (Tối thiểu 6.000.000)" oninput="calcWd()">
     <div style="text-align:center; margin-top:5px; font-size:0.9rem;">Thực nhận dự kiến: <b style="color:#34d399;" id="wd-expect">0đ</b></div>
     <button class="btn bg-gold" onclick="withdraw('withdraw')">Gửi Lệnh Rút Xu</button>
   </div>
@@ -173,7 +177,7 @@
     </div>
     <input type="text" id="ref-bank2" placeholder="Ngân Hàng / Momo / ZaloPay">
     <input type="number" id="ref-stk2" placeholder="Số Tài Khoản / SĐT">
-    <input type="text" id="ref-name2" placeholder="Tên Chủ Tài Khoản (IN HOA)">
+    <input type="text" id="ref-name2" placeholder="Tên Chủ TK (IN HOA)">
     <input type="number" id="ref-amt2" placeholder="Số VND rút (Tối thiểu 3000)">
     <button class="btn bg-green" onclick="withdraw('withdraw_ref')">Gửi Lệnh Rút VND</button>
   </div>
@@ -196,16 +200,16 @@
 </div>
 
 <div class="bottom-nav">
-  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.3rem">⛏</div>Trang Chủ</div>
-  <div class="nav-item" onclick="nav('ref', this)"><div style="font-size:1.3rem">🤝</div>Bạn Bè</div>
-  <div class="nav-item" onclick="nav('task', this)"><div style="font-size:1.3rem">🎯</div>Nhiệm Vụ</div>
-  <div class="nav-item" onclick="nav('top', this); loadTop();"><div style="font-size:1.3rem">🏆</div>Đua Top</div>
-  <div class="nav-item" onclick="nav('shop', this)"><div style="font-size:1.3rem">🛒</div>Cửa Hàng</div>
-  <div class="nav-item" onclick="nav('bank', this)"><div style="font-size:1.3rem">🏦</div>Rút Tiền</div>
+  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.4rem; margin-bottom:3px;">⛏</div>Đào Xu</div>
+  <div class="nav-item" onclick="nav('ref', this)"><div style="font-size:1.4rem; margin-bottom:3px;">🤝</div>Bạn Bè</div>
+  <div class="nav-item" onclick="nav('task', this)"><div style="font-size:1.4rem; margin-bottom:3px;">🎯</div>Nhiệm Vụ</div>
+  <div class="nav-item" onclick="nav('top', this); loadTop();"><div style="font-size:1.4rem; margin-bottom:3px;">🏆</div>Đua Top</div>
+  <div class="nav-item" onclick="nav('shop', this)"><div style="font-size:1.4rem; margin-bottom:3px;">🛒</div>Cửa Hàng</div>
+  <div class="nav-item" onclick="nav('bank', this)"><div style="font-size:1.4rem; margin-bottom:3px;">🏦</div>Rút Tiền</div>
 </div>
 
 <script>
-  // HIỆU ỨNG MƯA
+  // 1. HIỆU ỨNG MƯA ĐỒNG XU
   function createSnowCoin() { 
     const container = document.getElementById('snow-container');
     const c = document.createElement('div'); c.innerHTML = '🪙'; c.className = 'snow-coin'; 
@@ -214,29 +218,46 @@
   } 
   setInterval(createSnowCoin, 300);
 
+  // 2. KẾT NỐI API VÀ TELEGRAM
   const API_URL = "https://taptoearn-backend.congle4443.workers.dev";
   let tg_id = "test_123", tg_name = "Guest", initData = "";
+  let tgWebApp = null;
   try {
-    const tg = window.Telegram.WebApp; tg.expand();
-    if(tg.initDataUnsafe.user) { tg_id = tg.initDataUnsafe.user.id.toString(); tg_name = tg.initDataUnsafe.user.first_name; initData = tg.initData; }
+    tgWebApp = window.Telegram.WebApp; 
+    tgWebApp.expand();
+    if(tgWebApp.initDataUnsafe.user) { 
+      tg_id = tgWebApp.initDataUnsafe.user.id.toString(); 
+      tg_name = tgWebApp.initDataUnsafe.user.first_name; 
+      initData = tgWebApp.initData; 
+    }
   } catch(e){}
   document.getElementById('player-name').innerText = tg_name;
   document.getElementById('ref-link').value = "https://t.me/BotCuaSep_bot?start=ref_" + tg_id;
 
+  // 3. MỞ LINK NGOÀI AN TOÀN
+  function openLinkSafe(url) {
+    if(tgWebApp && tgWebApp.openLink) { tgWebApp.openLink(url); } 
+    else { window.open(url, '_blank'); }
+  }
+
+  // 4. CHUYỂN TAB (ĐIỀU HƯỚNG)
   function nav(id, el) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('screen-' + id).classList.add('active'); el.classList.add('active');
+    document.getElementById('screen-' + id).classList.add('active'); 
+    el.classList.add('active');
   }
 
   let current_rate = 200000; let current_bal = 0;
 
+  // 5. TÍNH TOÁN RÚT TIỀN
   function calcWd() {
     let amt = parseInt(document.getElementById('wd-amt').value) || 0;
     let vnd = Math.floor(amt / 2000); 
     document.getElementById('wd-expect').innerText = vnd.toLocaleString('vi-VN') + "đ";
   }
 
+  // 6. CẬP NHẬT GIAO DIỆN
   function updateUI(data) {
     current_bal = data.balance;
     document.getElementById('balance').innerText = current_bal.toLocaleString('vi-VN').replace(/,/g, '.');
@@ -251,6 +272,7 @@
     let lvl = data.machine_lvl || 1;
     current_rate = data.rate || 200000;
     document.getElementById('player-lvl').innerText = "Lv " + lvl;
+    document.getElementById('machine-lvl').innerText = "Lv " + lvl;
     document.getElementById('machine-lvl2').innerText = "Lv " + lvl;
     document.getElementById('speed-text').innerText = `${current_rate.toLocaleString('vi-VN').replace(/,/g, '.')} Xu / 6 Giờ`;
     
@@ -265,6 +287,7 @@
     }
   }
 
+  // 7. GỬI API CHUNG
   async function sendApi(action, data) {
     try {
       let res = await fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({action, tg_id, tg_name, initData, data}) });
@@ -278,13 +301,16 @@
     } catch(e) {}
   }
 
+  // 8. RÚT TIỀN
   function withdraw(type) {
     let prefix = type === 'withdraw' ? 'wd' : 'ref';
     let suffix = type === 'withdraw' ? '' : '2';
     let b = document.getElementById(`${prefix}-bank${suffix}`).value, s = document.getElementById(`${prefix}-stk${suffix}`).value, n = document.getElementById(`${prefix}-name${suffix}`).value, a = document.getElementById(`${prefix}-amt${suffix}`).value;
-    if(!b || !s || !n || !a) return alert("Nhập đủ thông tin!"); sendApi(type, {bank:b, stk:s, name:n, amount:a});
+    if(!b || !s || !n || !a) return alert("Vui lòng điền đủ thông tin!"); 
+    sendApi(type, {bank:b, stk:s, name:n, amount:a});
   }
 
+  // 9. TẢI BXH ĐUA TOP
   function loadTop() {
     fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({action: "get_top", tg_id, initData}) })
     .then(r=>r.json()).then(j => {
@@ -299,19 +325,20 @@
 
   function claimIdle() { document.getElementById('screen-lock').style.display = 'none'; sendApi("claim_idle"); }
 
+  // 10. CLICK ĐỒNG XU (CHỈ LÀM HIỆU ỨNG RUNG & RƠI XU, KHÔNG CỘNG TIỀN)
   document.getElementById('coin').onclick = (e) => {
     let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
-    try { window.Telegram.WebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
+    try { tgWebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
   };
   
-  function copyRef() { let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy"); alert("Đã copy Link!"); }
-
+  // 11. ĐẾM SỐ XU TĂNG LÊN THEO GIÂY TRÊN MÀN HÌNH
   setInterval(() => {
-    let xu_per_sec = current_rate / 21600;
+    let xu_per_sec = current_rate / 21600; // Tốc độ xu / 6h chia cho số giây
     current_bal += xu_per_sec;
     document.getElementById('balance').innerText = Math.floor(current_bal).toLocaleString('vi-VN').replace(/,/g, '.');
   }, 1000);
 
+  // GỬI SYNC MỖI PHÚT
   setInterval(() => sendApi('sync'), 60000); sendApi('sync');
 </script>
 </body>
