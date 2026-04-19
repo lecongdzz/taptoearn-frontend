@@ -8,40 +8,63 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
   body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow: hidden; user-select: none; }
-  .screen { display: none; flex-direction: column; align-items: center; height: 100vh; padding-top: 20px; padding-bottom: 110px; overflow-y: auto; width: 100%; position: relative; }
+  
+  /* HIỆU ỨNG MƯA ĐỒNG XU RƠI */
+  #snow-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; overflow: hidden; }
+  .snow-coin { position: absolute; top: -10%; font-size: 1.8rem; animation: fall linear forwards; opacity: 0.8; text-shadow: 0 0 10px rgba(251,191,36,0.6); }
+  @keyframes fall { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(115vh) rotate(720deg); } }
+
+  .screen { display: none; flex-direction: column; align-items: center; height: 100vh; padding-top: 20px; padding-bottom: 110px; overflow-y: auto; width: 100%; position: relative; z-index: 5;}
   .screen.active { display: flex; }
   .user-tag { align-self: flex-start; margin-left: 20px; background: #1e293b; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; margin-top: 10px; border: 1px solid #334155;}
+  
   #balance { font-size: 3.5rem; font-weight: 900; color: #fbbf24; margin-top: 10px; text-shadow: 0 0 15px rgba(251,191,36,0.3);}
-  .stats-box { display: flex; justify-content: space-around; width: 92%; background: #1e293b; border-radius: 15px; padding: 12px; margin-bottom: 20px; }
-  .coin-btn { width: 220px; height: 220px; background: radial-gradient(circle, #fef08a 0%, #f59e0b 60%, #b45309 100%); border-radius: 50%; border: 4px solid #fde047; display: flex; align-items: center; justify-content: center; font-size: 6rem; color: #713f12; font-weight: 900; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.05s; }
+  
+  .stats-box { display: flex; justify-content: space-around; width: 92%; background: #1e293b; border-radius: 15px; padding: 12px; margin-bottom: 15px; }
+  .coin-btn { width: 220px; height: 220px; background: radial-gradient(circle, #fef08a 0%, #f59e0b 60%, #b45309 100%); border-radius: 50%; border: 4px solid #fde047; display: flex; align-items: center; justify-content: center; font-size: 6rem; color: #713f12; font-weight: 900; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.05s; }
   .coin-btn:active { transform: scale(0.92); }
   .energy-container { width: 85%; background: #334155; border-radius: 15px; height: 16px; overflow: hidden; }
   .energy-fill { width: 100%; height: 100%; background: #fbbf24; transition: width 0.2s;}
+  
+  .speed-box { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; width: 90%; margin-top: 15px; font-size: 0.85rem; color: #9ca3af; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+
   .card { background: #1e293b; width: 92%; border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid #334155; box-sizing: border-box; }
   .card h3 { color: #fbbf24; text-align: center; margin: 0 0 10px 0; font-size: 1.1rem; }
-  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #4b5563; background: #0f172a; color: white; text-align: center; margin-bottom: 8px; box-sizing: border-box; }
-  .btn { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; }
+  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #4b5563; background: #0f172a; color: white; text-align: center; margin-bottom: 8px; box-sizing: border-box; outline: none; }
+  input:focus { border-color: #fbbf24; }
+  .btn { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; margin-top: 5px; transition: 0.2s; }
+  .btn:active { transform: scale(0.95); }
   .bg-gold { background: #d97706; } .bg-green { background: #059669; } .bg-blue { background: #2563eb; }
-  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px 0 20px 0; border-top: 1px solid #334155; }
+  
+  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px 0 20px 0; border-top: 1px solid #334155; z-index: 100;}
   .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; }
   .nav-item.active { color: #fbbf24; }
   .hist-item { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; margin-bottom: 5px; font-size: 0.85rem; border-left: 3px solid #fbbf24; }
-  .top-row { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 8px; font-weight: bold;}
+  .top-row { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 8px; font-weight: bold; align-items: center;}
 </style>
 </head>
 <body>
 
-<div id="screen-tap" class="screen active">
-  <div class="user-tag">👤 <span id="player-name">...</span></div>
+<div id="snow-container"></div> <div id="screen-tap" class="screen active">
+  <div class="user-tag">👤 <span id="player-name">...</span> | <span id="player-lvl" style="color:#fbbf24">Lv 1</span></div>
   <div id="balance">0</div>
+  
   <div class="stats-box">
-    <div style="text-align:center"><span>🪙 Vàng</span><br><b class="val-gold" id="gold-bal" style="color:#fbbf24">0</b></div>
-    <div style="text-align:center"><span>💳 VND</span><br><b class="val-vnd" id="vnd-bal" style="color:#34d399">0</b></div>
+    <div style="text-align:center"><span>🪙 Vàng</span><br><b style="color:#fbbf24; font-size:1.2rem;" id="gold-bal">0</b></div>
+    <div style="text-align:center"><span>💳 VND</span><br><b style="color:#34d399; font-size:1.2rem;" id="vnd-bal">0</b></div>
   </div>
+  
   <div class="coin-btn" id="coin">$</div>
+  
   <div class="energy-container"><div class="energy-fill" id="energy-bar"></div></div>
   <div style="margin-top:10px; font-weight:bold;">⚡ <span id="energy-val">1000</span>/1000</div>
-  <div style="margin-top:20px;"><a href="https://t.me/lecongdzzz" target="_blank" style="color:#94a3b8; text-decoration:none; font-size:0.8rem; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px;">🛠 Hỗ trợ Admin: @lecongdzzz</a></div>
+  
+  <div class="speed-box">
+    🚀 Tốc độ: <b style="color:#34d399;" id="speed-text">100 kH/s = 1 Xu/s = 3.600 Xu/h</b><br>
+    🎁 Thưởng đầy kho (1h): <b style="color:#fbbf24;">50K - 100K Xu</b>
+  </div>
+
+  <div style="margin-top:20px;"><a href="https://t.me/lecongdzzz" target="_blank" style="color:#94a3b8; text-decoration:none; font-size:0.8rem; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px;">🛠 Liên hệ Admin: @lecongdzzz</a></div>
 </div>
 
 <div id="screen-task" class="screen">
@@ -54,8 +77,8 @@
   <div class="card">
     <h3>🤝 GIỚI THIỆU BẠN BÈ</h3>
     <div style="font-size:0.85rem; background:rgba(251,191,36,0.1); padding:10px; border-radius:8px; margin-bottom:10px; color:#fde047;">
-      📌 <b>Lưu ý:</b> Bạn bè phải vượt link thành công Admin mới duyệt tiền! <br>
-      🎁 Thưởng: 1.000đ - 2.000đ/lượt.
+      📌 <b>Lưu ý:</b> Bạn bè phải vượt link và đánh giá map thì Admin mới duyệt tiền! <br>
+      🎁 Thưởng: 2.000đ/lượt.
     </div>
     <div style="text-align:center; margin-bottom: 10px;">
       <span style="color:#9ca3af; font-size: 0.85rem;">Số dư Ví: </span><br>
@@ -74,17 +97,20 @@
 </div>
 
 <div id="screen-top" class="screen">
-  <div class="card"><h3>🏆 TOP 10 ĐẠI GIA</h3><div id="top-list">Đang tải...</div></div>
+  <div class="card">
+    <h3>🏆 TOP 10 ĐẠI GIA</h3>
+    <div id="top-list">Đang tải...</div>
+  </div>
 </div>
 
 <div id="screen-shop" class="screen">
   <div class="card">
-    <h3 style="color:#10b981;">🚀 NÂNG CẤP TỐC ĐỘ</h3>
+    <h3 style="color:#10b981;">🚀 NÂNG CẤP TỐC ĐỘ ĐÀO</h3>
     <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; margin-bottom:15px;">
-      <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp độ:</span><br><span id="machine-lvl" style="color:#34d399; font-weight:bold; font-size:1.3rem;">0</span></div>
-      <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Chi phí:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
+      <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp hiện tại:</span><br><span id="machine-lvl" style="color:#34d399; font-weight:bold; font-size:1.3rem;">Lv 1</span></div>
+      <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Phí lên cấp:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
     </div>
-    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+1 Xu/s)</button>
+    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+5 kH/s)</button>
   </div>
   <div class="card">
     <h3>🔄 SÀN GIAO DỊCH VÀNG</h3>
@@ -122,27 +148,34 @@
     <p style="text-align:center; color:#fbbf24; font-size:0.9rem; margin-bottom:20px;">Vượt Link Đánh Giá 5 Sao để lấy xu vào ví!</p>
     <button class="btn bg-blue" onclick="window.open('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka', '_blank')">1. Bấm Vượt Link</button>
     <input type="text" id="review-input" placeholder="Dán bình luận vào đây..." style="margin-top:15px;">
-    <button class="btn bg-gold" onclick="claimIdle()">2. Hoàn Thành & Nhận Xu</button>
+    <button class="btn bg-gold" onclick="claimIdle()">2. Gửi Admin Duyệt</button>
   </div>
 </div>
 
 <div class="bottom-nav">
-  <div class="nav-item active" onclick="nav('tap', this)"><span>⛏</span>Trang Chủ</div>
-  <div class="nav-item" onclick="nav('task', this)"><span>🎯</span>Nhiệm Vụ</div>
-  <div class="nav-item" onclick="nav('top', this); loadTop();"><span>🏆</span>Đua Top</div>
-  <div class="nav-item" onclick="nav('shop', this)"><span>🛒</span>Cửa Hàng</div>
-  <div class="nav-item" onclick="nav('bank', this)"><span>🏦</span>Rút Tiền</div>
+  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.5rem">⛏</div>Trang Chủ</div>
+  <div class="nav-item" onclick="nav('task', this)"><div style="font-size:1.5rem">🎯</div>Nhiệm Vụ</div>
+  <div class="nav-item" onclick="nav('top', this); loadTop();"><div style="font-size:1.5rem">🏆</div>Đua Top</div>
+  <div class="nav-item" onclick="nav('shop', this)"><div style="font-size:1.5rem">🛒</div>Cửa Hàng</div>
+  <div class="nav-item" onclick="nav('bank', this)"><div style="font-size:1.5rem">🏦</div>Rút Tiền</div>
 </div>
 
 <script>
+  // KÍCH HOẠT MƯA ĐỒNG XU NHƯ TUYẾT
+  function createSnowCoin() { 
+    const container = document.getElementById('snow-container');
+    const c = document.createElement('div'); c.innerHTML = '🪙'; c.className = 'snow-coin'; 
+    c.style.left = Math.random() * 100 + 'vw'; c.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+    container.appendChild(c); setTimeout(() => c.remove(), 5000); 
+  } 
+  setInterval(createSnowCoin, 300); // Rơi dày và liên tục hơn
+
   const API_URL = "https://taptoearn-backend.congle4443.workers.dev";
   let tg_id = "test_123", tg_name = "Guest", initData = "";
   try {
     const tg = window.Telegram.WebApp; tg.expand();
     if(tg.initDataUnsafe.user) {
-      tg_id = tg.initDataUnsafe.user.id.toString();
-      tg_name = tg.initDataUnsafe.user.first_name;
-      initData = tg.initData;
+      tg_id = tg.initDataUnsafe.user.id.toString(); tg_name = tg.initDataUnsafe.user.first_name; initData = tg.initData;
     }
   } catch(e){}
   document.getElementById('player-name').innerText = tg_name;
@@ -161,11 +194,19 @@
     document.getElementById('ref-coin').innerText = (data.ref_coin||0).toLocaleString('vi-VN').replace(/,/g, '.');
     document.getElementById('energy-bar').style.width = (data.energy/10) + "%";
     document.getElementById('energy-val').innerText = Math.floor(data.energy);
-    document.getElementById('machine-lvl').innerText = data.machine_lvl || 0;
+    
+    // TÍNH TOÁN LEVEL VÀ TỐC ĐỘ
+    let lvl = data.machine_lvl || 1;
+    document.getElementById('player-lvl').innerText = "Lv " + lvl;
+    document.getElementById('machine-lvl').innerText = "Lv " + lvl;
+    let khs = 100 + ((lvl - 1) * 5); // Tăng 5kH/s mỗi cấp
+    let xus = 1 + ((lvl - 1) * 0.05); // Tăng 0.05 xu/s mỗi cấp
+    let xuh = Math.floor(xus * 3600); // Số xu 1 giờ
+    document.getElementById('speed-text').innerText = `${khs} kH/s = ${xus.toFixed(2)} Xu/s = ${xuh.toLocaleString('vi-VN').replace(/,/g, '.')} Xu/h`;
     
     if(data.history) {
       let h = ""; let items = data.history.split('|').filter(i => i.trim() !== "");
-      items.forEach(item => { h += `<div class="hist-item">${item}</div>`; });
+      items.reverse().forEach(item => { h += `<div class="hist-item">${item}</div>`; });
       document.getElementById('withdraw-history').innerHTML = h || "<center><small>Chưa có dữ liệu</small></center>";
     }
   }
@@ -174,9 +215,9 @@
     try {
       let res = await fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({action, tg_id, tg_name, initData, data}) });
       let j = await res.json();
-      if(j.requires_link) { document.getElementById('idle-amount-text').innerText = j.idle_amount; document.getElementById('screen-lock').style.display = 'flex'; return; }
+      if(j.requires_link) { document.getElementById('idle-amount-text').innerText = j.idle_amount.toLocaleString('vi-VN').replace(/,/g, '.'); document.getElementById('screen-lock').style.display = 'flex'; return; }
       if(j.success) { updateUI(j.user); if(j.msg) alert("✅ " + j.msg); } else if (j.error) { alert("❌ " + j.error); }
-    } catch(e) { console.log(e); }
+    } catch(e) {}
   }
 
   function withdraw(type) {
@@ -190,8 +231,21 @@
     .then(r=>r.json()).then(j => {
       if(j.success) {
         let html = "";
-        j.top.forEach((u, i) => { html += `<div class='top-row'><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)} ${u.tg_name}</span> <span style='color:#fbbf24'>${u.balance.toLocaleString('vi-VN').replace(/,/g, '.')} Xu</span></div>`; });
-        document.getElementById('top-list').innerHTML = html || "Chưa có ai!";
+        j.top.forEach((u, i) => { 
+          html += `<div class='top-row'>
+                    <span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)} ${u.tg_name} <small style='color:#fbbf24'>(Lv.${u.machine_lvl})</small></span> 
+                    <span style='color:#34d399'>${u.balance.toLocaleString('vi-VN').replace(/,/g, '.')} Xu</span>
+                   </div>`; 
+        });
+        
+        // HIỂN THỊ HẠNG CỦA BẢN THÂN
+        let rankStr = j.my_rank > 99 ? "99+" : j.my_rank;
+        html += `<div class='top-row' style='margin-top:15px; border-top: 2px dashed #fbbf24; border-radius:0; padding-top:15px; color:#34d399; background: transparent;'>
+                   <span>🎖 Hạng của bạn: <b style="color:white;">Top ${rankStr}</b></span>
+                   <span style='color:#fbbf24'>Lv.${j.my_lvl}</span>
+                 </div>`;
+
+        document.getElementById('top-list').innerHTML = html;
       }
     });
   }
@@ -203,12 +257,17 @@
     sendApi("claim_idle", rev).then(() => { document.getElementById('review-input').value = ""; }); 
   }
 
-  document.getElementById('coin').onclick = () => {
-    let b = parseInt(document.getElementById('balance').innerText.replace(/\./g,'')); let e = parseInt(document.getElementById('energy-val').innerText);
-    if(e > 0) { b++; e--; updateUI({balance:b, energy:e}); sendApi('tap', {taps:1}); }
+  document.getElementById('coin').onclick = (e) => {
+    let b = parseInt(document.getElementById('balance').innerText.replace(/\./g,'')); let en = parseInt(document.getElementById('energy-val').innerText);
+    if(en > 0) { 
+      b++; en--; updateUI({balance:b, energy:en}); sendApi('tap', {taps:1}); 
+      let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
+      try { window.Telegram.WebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
+    }
   };
   function copyRef() { let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy"); alert("Đã copy Link!"); }
   setInterval(() => sendApi('sync'), 3000); sendApi('sync');
 </script>
 </body>
-</html>
+  </html>
+  
