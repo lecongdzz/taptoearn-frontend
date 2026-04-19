@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hệ Thống Đào Coin V10</title>
+<title>Hệ Thống Đào Coin V13</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
   body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow: hidden; user-select: none; }
   
-  /* HIỆU ỨNG MƯA ĐỒNG XU */
   #snow-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; overflow: hidden; }
   .snow-coin { position: absolute; top: -10%; font-size: 1.8rem; animation: fall linear forwards; opacity: 0.8; text-shadow: 0 0 10px rgba(251,191,36,0.6); }
   @keyframes fall { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(115vh) rotate(720deg); } }
@@ -36,9 +35,9 @@
   .btn:active { transform: scale(0.95); }
   .bg-gold { background: #d97706; } .bg-green { background: #059669; } .bg-blue { background: #2563eb; } .bg-purple { background: #7c3aed; }
   
-  /* MENU 6 TABS */
+  /* MENU 6 TABS CHUẨN */
   .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px 0 15px 0; border-top: 1px solid #334155; z-index: 100;}
-  .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
+  .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
   .nav-item.active { color: #fbbf24; }
   .top-row { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 8px; font-weight: bold; align-items: center;}
   
@@ -64,6 +63,7 @@
   
   <div class="speed-box">
     🚀 Tốc độ: <b style="color:#34d399;" id="speed-text">200.000 Xu / 6 Giờ</b><br>
+    <div id="job-warning" style="color:#ef4444; font-weight:bold; display:none; margin-top:5px;">⚠️ ĐÃ QUÁ 24H KHÔNG LÀM JOB! MÁY ĐÀO BỊ KHÓA!</div>
     <div style="margin-top:8px; font-size: 0.8rem; color:#cbd5e1; text-align:left;">
       Tới Min Rút Đào (6 Triệu Xu = 3.000đ): <span id="wd-percent" style="float:right;">0%</span>
       <div class="progress-bg"><div class="progress-fill" id="wd-progress"></div></div>
@@ -71,7 +71,6 @@
   </div>
 
   <div style="margin-top:15px;"><button class="btn bg-green" onclick="claimIdle()" style="padding: 8px 20px; font-size:0.9rem; border-radius:20px;">📦 LẤY XU VÀO KHO</button></div>
-  <div style="margin-top:15px; font-size:0.8rem; color:#94a3b8; font-weight:bold;">🛠 Liên hệ Admin: <a href="https://t.me/lecongdzzz" target="_blank" style="color:#fbbf24;">@lecongdzzz</a></div>
 </div>
 
 <div id="screen-ref" class="screen">
@@ -79,7 +78,7 @@
     <h3 style="color:#60a5fa;">🤝 MỜI BẠN BÈ TÂN THỦ</h3>
     <div style="font-size:0.85rem; background:rgba(59,130,246,0.1); padding:10px; border-radius:8px; margin-bottom:10px; color:#93c5fd;">
       📌 <b>Lưu ý:</b> Bạn bè phải bấm Start, làm nhiệm vụ và Admin duyệt thì bạn mới có tiền!<br>
-      🎁 Thưởng: <b style="color:#fbbf24;">+200.000 Xu</b> / Lượt thành công.
+      🎁 Thưởng: <b style="color:#fbbf24;">+200.000 Xu & +1.000đ</b> / Lượt.
     </div>
     
     <div class="stats-box" style="background:rgba(0,0,0,0.3); border:none; margin-bottom:10px;">
@@ -144,7 +143,7 @@
       <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp hiện tại:</span><br><span id="machine-lvl2" style="color:#34d399; font-weight:bold; font-size:1.3rem;">Lv 1</span></div>
       <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Phí lên cấp:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
     </div>
-    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50.000 Xu/6h)</button>
+    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50k Xu/6h)</button>
   </div>
   
   <div class="card">
@@ -164,7 +163,7 @@
     <input type="text" id="wd-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
     <input type="number" id="wd-stk" placeholder="Số Tài Khoản / SĐT">
     <input type="text" id="wd-name" placeholder="Tên Chủ TK (IN HOA)">
-    <input type="number" id="wd-amt" placeholder="Số Xu rút (Tối thiểu 6.000.000)" oninput="calcWd()">
+    <input type="number" id="wd-amt" placeholder="Số Xu rút (Tối thiểu 6 Triệu)" oninput="calcWd()">
     <div style="text-align:center; margin-top:5px; font-size:0.9rem;">Thực nhận dự kiến: <b style="color:#34d399;" id="wd-expect">0đ</b></div>
     <button class="btn bg-gold" onclick="withdraw('withdraw')">Gửi Lệnh Rút Xu</button>
   </div>
@@ -209,7 +208,6 @@
 </div>
 
 <script>
-  // 1. HIỆU ỨNG MƯA ĐỒNG XU
   function createSnowCoin() { 
     const container = document.getElementById('snow-container');
     const c = document.createElement('div'); c.innerHTML = '🪙'; c.className = 'snow-coin'; 
@@ -218,7 +216,6 @@
   } 
   setInterval(createSnowCoin, 300);
 
-  // 2. KẾT NỐI API VÀ TELEGRAM
   const API_URL = "https://taptoearn-backend.congle4443.workers.dev";
   let tg_id = "test_123", tg_name = "Guest", initData = "";
   let tgWebApp = null;
@@ -234,13 +231,12 @@
   document.getElementById('player-name').innerText = tg_name;
   document.getElementById('ref-link').value = "https://t.me/BotCuaSep_bot?start=ref_" + tg_id;
 
-  // 3. MỞ LINK NGOÀI AN TOÀN
+  // CHUẨN HOÁ MỞ LINK NGOÀI TRÌNH DUYỆT (KHÔNG BỊ TRẮNG TRANG)
   function openLinkSafe(url) {
     if(tgWebApp && tgWebApp.openLink) { tgWebApp.openLink(url); } 
     else { window.open(url, '_blank'); }
   }
 
-  // 4. CHUYỂN TAB (ĐIỀU HƯỚNG)
   function nav(id, el) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -248,16 +244,14 @@
     el.classList.add('active');
   }
 
-  let current_rate = 200000; let current_bal = 0;
+  let current_rate = 200000; let current_bal = 0; let is_locked_job = false;
 
-  // 5. TÍNH TOÁN RÚT TIỀN
   function calcWd() {
     let amt = parseInt(document.getElementById('wd-amt').value) || 0;
     let vnd = Math.floor(amt / 2000); 
     document.getElementById('wd-expect').innerText = vnd.toLocaleString('vi-VN') + "đ";
   }
 
-  // 6. CẬP NHẬT GIAO DIỆN
   function updateUI(data) {
     current_bal = data.balance;
     document.getElementById('balance').innerText = current_bal.toLocaleString('vi-VN').replace(/,/g, '.');
@@ -280,6 +274,14 @@
     document.getElementById('wd-percent').innerText = percent.toFixed(1) + "%";
     document.getElementById('wd-progress').style.width = percent + "%";
 
+    // KHÓA 24H NẾU KHÔNG LÀM JOB
+    is_locked_job = data.needs_job || false;
+    if(is_locked_job) {
+      document.getElementById('job-warning').style.display = 'block';
+    } else {
+      document.getElementById('job-warning').style.display = 'none';
+    }
+
     if(data.history) {
       let h = ""; let items = data.history.split('|').filter(i => i.trim() !== "");
       items.reverse().forEach(item => { h += `<div class="hist-item">${item}</div>`; });
@@ -287,7 +289,6 @@
     }
   }
 
-  // 7. GỬI API CHUNG
   async function sendApi(action, data) {
     try {
       let res = await fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({action, tg_id, tg_name, initData, data}) });
@@ -296,12 +297,14 @@
         document.getElementById('idle-amount-text').innerText = j.idle_amount.toLocaleString('vi-VN').replace(/,/g, '.'); 
         document.getElementById('screen-lock').style.display = 'flex'; return; 
       }
+      if(j.error && j.error.includes("24h")) {
+        alert(j.error); nav('task', document.querySelectorAll('.nav-item')[2]); document.getElementById('screen-lock').style.display = 'none'; return;
+      }
       if(j.success) { updateUI(j.user); if(j.msg && action !== 'sync') alert("✅ " + j.msg); } 
       else if (j.error) { alert("❌ " + j.error); }
     } catch(e) {}
   }
 
-  // 8. RÚT TIỀN
   function withdraw(type) {
     let prefix = type === 'withdraw' ? 'wd' : 'ref';
     let suffix = type === 'withdraw' ? '' : '2';
@@ -310,7 +313,6 @@
     sendApi(type, {bank:b, stk:s, name:n, amount:a});
   }
 
-  // 9. TẢI BXH ĐUA TOP
   function loadTop() {
     fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({action: "get_top", tg_id, initData}) })
     .then(r=>r.json()).then(j => {
@@ -325,21 +327,5 @@
 
   function claimIdle() { document.getElementById('screen-lock').style.display = 'none'; sendApi("claim_idle"); }
 
-  // 10. CLICK ĐỒNG XU (CHỈ LÀM HIỆU ỨNG RUNG & RƠI XU, KHÔNG CỘNG TIỀN)
   document.getElementById('coin').onclick = (e) => {
-    let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
-    try { tgWebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
-  };
-  
-  // 11. ĐẾM SỐ XU TĂNG LÊN THEO GIÂY TRÊN MÀN HÌNH
-  setInterval(() => {
-    let xu_per_sec = current_rate / 21600; // Tốc độ xu / 6h chia cho số giây
-    current_bal += xu_per_sec;
-    document.getElementById('balance').innerText = Math.floor(current_bal).toLocaleString('vi-VN').replace(/,/g, '.');
-  }, 1000);
-
-  // GỬI SYNC MỖI PHÚT
-  setInterval(() => sendApi('sync'), 60000); sendApi('sync');
-</script>
-</body>
-</html>
+    let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'
