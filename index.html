@@ -35,8 +35,8 @@
   .btn:active { transform: scale(0.95); }
   .bg-gold { background: #d97706; } .bg-green { background: #059669; } .bg-blue { background: #2563eb; } .bg-purple { background: #7c3aed; }
   
-  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px 0 20px 0; border-top: 1px solid #334155; z-index: 100;}
-  .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; }
+  .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px 0 15px 0; border-top: 1px solid #334155; z-index: 100;}
+  .nav-item { color: #94a3b8; display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-weight: bold; }
   .nav-item.active { color: #fbbf24; }
   .top-row { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 8px; font-weight: bold; align-items: center;}
   
@@ -68,36 +68,54 @@
     </div>
   </div>
 
-  <div style="margin-top:20px;"><button class="btn bg-green" onclick="claimIdle()" style="padding: 8px 20px; font-size:0.9rem; border-radius:20px;">📦 LẤY XU VÀO KHO</button></div>
+  <div style="margin-top:15px;"><button class="btn bg-green" onclick="claimIdle()" style="padding: 8px 20px; font-size:0.9rem; border-radius:20px;">📦 LẤY XU VÀO KHO</button></div>
+  <div style="margin-top:15px; font-size:0.8rem; color:#94a3b8; font-weight:bold;">🛠 Liên hệ Admin: <a href="https://t.me/lecongdzzz" style="color:#fbbf24;">@lecongdzzz</a></div>
+</div>
+
+<div id="screen-ref" class="screen">
+  <div class="card" style="border-color:#3b82f6;">
+    <h3 style="color:#60a5fa;">🤝 MỜI BẠN BÈ TÂN THỦ</h3>
+    <div style="font-size:0.85rem; background:rgba(59,130,246,0.1); padding:10px; border-radius:8px; margin-bottom:10px; color:#93c5fd;">
+      📌 <b>Lưu ý:</b> Bạn bè phải bấm Start, làm nhiệm vụ và Admin duyệt thì bạn mới có tiền!<br>
+      🎁 Thưởng: <b style="color:#fbbf24;">+200.000 Xu</b> / Lượt thành công.
+    </div>
+    
+    <div class="stats-box" style="background:rgba(0,0,0,0.3); border:none; margin-bottom:10px;">
+      <div style="text-align:center"><span>👥 Đã mời</span><br><b style="color:#34d399; font-size:1.5rem;" id="ref-count">0</b></div>
+    </div>
+
+    <input type="text" id="ref-link" readonly>
+    <button class="btn bg-blue" onclick="copyRef()">📋 Copy Link Giới Thiệu</button>
+  </div>
 </div>
 
 <div id="screen-task" class="screen">
   <div class="card" style="border: 1px solid #fbbf24;">
     <h3>🎯 NHIỆM VỤ HẰNG NGÀY</h3>
-    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong đóng App, về Bot Telegram gõ <code>/baocao [Tên Nhiệm Vụ]</code> để Admin duyệt tiền nhé!</p>
+    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong hãy đóng App, về Bot Telegram gõ <code>/baocao [Tên Job]</code> để Admin duyệt tiền nhé!</p>
     
     <div class="job-item">
       <div class="job-title">1. Nhiệm vụ link đối tác</div>
       💰 Thưởng: <b style="color:#fbbf24;">100đ + 50.000 Xu</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link Khảo Sát</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link Khảo Sát</button>
     </div>
     
     <div class="job-item">
       <div class="job-title">2. Khảo sát nội bộ</div>
       💰 Thưởng: <b style="color:#fbbf24;">150đ + 80.000 Xu</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/rv/20254tl_tm.key')">🔗 Mở Link Khảo Sát</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://linktot.net/rv/20254tl_tm.key')">🔗 Mở Link Khảo Sát</button>
     </div>
     
     <div class="job-item">
       <div class="job-title">3. Tải App / Phản hồi nội bộ</div>
       💰 Thưởng: <b style="color:#fbbf24;">500đ</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.ap')">🔗 Mở Link Cài App</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://linktot.net/20254tl_tr.ap')">🔗 Mở Link Cài App</button>
     </div>
 
     <div class="job-item">
       <div class="job-title">4. Đánh giá hệ thống (Tân thủ)</div>
       💰 Thưởng: <b style="color:#fbbf24;">2.000đ</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka')">🔗 Mở Link Đánh Giá</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="Telegram.WebApp.openLink('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka')">🔗 Mở Link Đánh Giá</button>
     </div>
   </div>
 </div>
@@ -119,7 +137,7 @@
   <div class="card">
     <h3 style="color:#10b981;">🚀 NÂNG CẤP MÁY ĐÀO</h3>
     <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; margin-bottom:15px;">
-      <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp hiện tại:</span><br><span id="machine-lvl" style="color:#34d399; font-weight:bold; font-size:1.3rem;">Lv 1</span></div>
+      <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp hiện tại:</span><br><span id="machine-lvl2" style="color:#34d399; font-weight:bold; font-size:1.3rem;">Lv 1</span></div>
       <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Phí lên cấp:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
     </div>
     <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50k Xu/6h)</button>
@@ -153,10 +171,10 @@
       🔹 <b>VND khả dụng:</b> <span id="ref-current-vnd" style="color:#34d399; font-weight:bold;">0đ</span><br>
       🔹 <b>Min rút:</b> <span style="color:#fca5a5;">3.000đ</span>
     </div>
-    <input type="text" id="ref-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
-    <input type="number" id="ref-stk" placeholder="Số Tài Khoản / SĐT">
-    <input type="text" id="ref-name" placeholder="Tên Chủ Tài Khoản (IN HOA)">
-    <input type="number" id="ref-amt" placeholder="Số VND rút (Tối thiểu 3000)">
+    <input type="text" id="ref-bank2" placeholder="Ngân Hàng / Momo / ZaloPay">
+    <input type="number" id="ref-stk2" placeholder="Số Tài Khoản / SĐT">
+    <input type="text" id="ref-name2" placeholder="Tên Chủ Tài Khoản (IN HOA)">
+    <input type="number" id="ref-amt2" placeholder="Số VND rút (Tối thiểu 3000)">
     <button class="btn bg-green" onclick="withdraw('withdraw_ref')">Gửi Lệnh Rút VND</button>
   </div>
 
@@ -178,14 +196,16 @@
 </div>
 
 <div class="bottom-nav">
-  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.5rem">⛏</div>Đào Xu</div>
-  <div class="nav-item" onclick="nav('task', this)"><div style="font-size:1.5rem">🎯</div>Nhiệm Vụ</div>
-  <div class="nav-item" onclick="nav('top', this); loadTop();"><div style="font-size:1.5rem">🏆</div>Đua Top</div>
-  <div class="nav-item" onclick="nav('shop', this)"><div style="font-size:1.5rem">🛒</div>Cửa Hàng</div>
-  <div class="nav-item" onclick="nav('bank', this)"><div style="font-size:1.5rem">🏦</div>Rút Tiền</div>
+  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.3rem">⛏</div>Trang Chủ</div>
+  <div class="nav-item" onclick="nav('ref', this)"><div style="font-size:1.3rem">🤝</div>Bạn Bè</div>
+  <div class="nav-item" onclick="nav('task', this)"><div style="font-size:1.3rem">🎯</div>Nhiệm Vụ</div>
+  <div class="nav-item" onclick="nav('top', this); loadTop();"><div style="font-size:1.3rem">🏆</div>Đua Top</div>
+  <div class="nav-item" onclick="nav('shop', this)"><div style="font-size:1.3rem">🛒</div>Cửa Hàng</div>
+  <div class="nav-item" onclick="nav('bank', this)"><div style="font-size:1.3rem">🏦</div>Rút Tiền</div>
 </div>
 
 <script>
+  // HIỆU ỨNG MƯA
   function createSnowCoin() { 
     const container = document.getElementById('snow-container');
     const c = document.createElement('div'); c.innerHTML = '🪙'; c.className = 'snow-coin'; 
@@ -196,18 +216,12 @@
 
   const API_URL = "https://taptoearn-backend.congle4443.workers.dev";
   let tg_id = "test_123", tg_name = "Guest", initData = "";
-  let tgWebApp = null;
   try {
-    tgWebApp = window.Telegram.WebApp; 
-    tgWebApp.expand();
-    if(tgWebApp.initDataUnsafe.user) { tg_id = tgWebApp.initDataUnsafe.user.id.toString(); tg_name = tgWebApp.initDataUnsafe.user.first_name; initData = tgWebApp.initData; }
+    const tg = window.Telegram.WebApp; tg.expand();
+    if(tg.initDataUnsafe.user) { tg_id = tg.initDataUnsafe.user.id.toString(); tg_name = tg.initDataUnsafe.user.first_name; initData = tg.initData; }
   } catch(e){}
   document.getElementById('player-name').innerText = tg_name;
-
-  function openLinkSafe(url) {
-    if(tgWebApp && tgWebApp.openLink) { tgWebApp.openLink(url); } 
-    else { window.open(url, '_blank'); }
-  }
+  document.getElementById('ref-link').value = "https://t.me/BotCuaSep_bot?start=ref_" + tg_id;
 
   function nav(id, el) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -232,11 +246,12 @@
     let vndStr = (data.vnd||0).toLocaleString('vi-VN').replace(/,/g, '.') + "đ";
     document.getElementById('vnd-bal').innerText = vndStr;
     document.getElementById('ref-current-vnd').innerText = vndStr;
+    document.getElementById('ref-count').innerText = data.ref_count || 0;
     
     let lvl = data.machine_lvl || 1;
     current_rate = data.rate || 200000;
     document.getElementById('player-lvl').innerText = "Lv " + lvl;
-    document.getElementById('machine-lvl').innerText = "Lv " + lvl;
+    document.getElementById('machine-lvl2').innerText = "Lv " + lvl;
     document.getElementById('speed-text').innerText = `${current_rate.toLocaleString('vi-VN').replace(/,/g, '.')} Xu / 6 Giờ`;
     
     let percent = Math.min((current_bal / 6000000) * 100, 100);
@@ -265,7 +280,8 @@
 
   function withdraw(type) {
     let prefix = type === 'withdraw' ? 'wd' : 'ref';
-    let b = document.getElementById(`${prefix}-bank`).value, s = document.getElementById(`${prefix}-stk`).value, n = document.getElementById(`${prefix}-name`).value, a = document.getElementById(`${prefix}-amt`).value;
+    let suffix = type === 'withdraw' ? '' : '2';
+    let b = document.getElementById(`${prefix}-bank${suffix}`).value, s = document.getElementById(`${prefix}-stk${suffix}`).value, n = document.getElementById(`${prefix}-name${suffix}`).value, a = document.getElementById(`${prefix}-amt${suffix}`).value;
     if(!b || !s || !n || !a) return alert("Nhập đủ thông tin!"); sendApi(type, {bank:b, stk:s, name:n, amount:a});
   }
 
@@ -285,9 +301,11 @@
 
   document.getElementById('coin').onclick = (e) => {
     let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
-    try { tgWebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
+    try { window.Telegram.WebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
   };
   
+  function copyRef() { let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy"); alert("Đã copy Link!"); }
+
   setInterval(() => {
     let xu_per_sec = current_rate / 21600;
     current_bal += xu_per_sec;
