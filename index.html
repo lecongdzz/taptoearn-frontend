@@ -63,7 +63,7 @@
   <div class="speed-box">
     🚀 Tốc độ: <b style="color:#34d399;" id="speed-text">200.000 Xu / 6 Giờ</b><br>
     <div style="margin-top:8px; font-size: 0.8rem; color:#cbd5e1; text-align:left;">
-      Tới Min Rút (6 Triệu Xu = 3.000đ): <span id="wd-percent" style="float:right;">0%</span>
+      Tới Min Rút Đào (6 Triệu Xu = 3.000đ): <span id="wd-percent" style="float:right;">0%</span>
       <div class="progress-bg"><div class="progress-fill" id="wd-progress"></div></div>
     </div>
   </div>
@@ -74,7 +74,7 @@
 <div id="screen-task" class="screen">
   <div class="card" style="border: 1px solid #fbbf24;">
     <h3>🎯 NHIỆM VỤ HẰNG NGÀY</h3>
-    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong hãy đóng Game, về Bot gõ <code>/baocao [Tên Job]</code></p>
+    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong đóng App, về Bot Telegram gõ <code>/baocao [Tên Nhiệm Vụ]</code> để Admin duyệt tiền nhé!</p>
     
     <div class="job-item">
       <div class="job-title">1. Nhiệm vụ link đối tác</div>
@@ -112,8 +112,8 @@
 <div id="screen-shop" class="screen">
   <div class="card" style="border: 1px dashed #fbbf24;">
     <h3>🎁 NHẬP GIFTCODE</h3>
-    <input type="text" id="giftcode-input" placeholder="Dán mã quà tặng vào đây...">
-    <button class="btn bg-purple" onclick="sendApi('giftcode', document.getElementById('giftcode-input').value)">XÁC NHẬN MÃ CODE</button>
+    <input type="text" id="giftcode-input" placeholder="Dán mã code vào đây...">
+    <button class="btn bg-purple" onclick="sendApi('giftcode', document.getElementById('giftcode-input').value)">NHẬN QUÀ</button>
   </div>
 
   <div class="card">
@@ -134,7 +134,7 @@
 
 <div id="screen-bank" class="screen">
   <div class="card" style="border-color:#fbbf24;">
-    <h3 style="color:#fbbf24;">🏦 RÚT TIỀN ĐÀO (XU)</h3>
+    <h3 style="color:#fbbf24;">🏦 RÚT XU ĐÀO TỰ ĐỘNG</h3>
     <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; color:#cbd5e1;">
       🔹 <b>Xu khả dụng:</b> <span id="wd-current-xu" style="color:#fbbf24; font-weight:bold;">0</span><br>
       🔹 <b>Min rút:</b> <span style="color:#fca5a5;">6.000.000 Xu = 3.000đ</span>
@@ -142,15 +142,15 @@
     <input type="text" id="wd-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
     <input type="number" id="wd-stk" placeholder="Số Tài Khoản / SĐT">
     <input type="text" id="wd-name" placeholder="Tên Chủ Tài Khoản (IN HOA)">
-    <input type="number" id="wd-amt" placeholder="Số Xu rút (Tối thiểu 6.000.000)" oninput="calcWd()">
+    <input type="number" id="wd-amt" placeholder="Số Xu rút (Tối thiểu 6 Triệu)" oninput="calcWd()">
     <div style="text-align:center; margin-top:5px; font-size:0.9rem;">Thực nhận dự kiến: <b style="color:#34d399;" id="wd-expect">0đ</b></div>
     <button class="btn bg-gold" onclick="withdraw('withdraw')">Gửi Lệnh Rút Xu</button>
   </div>
 
   <div class="card" style="border-color:#34d399;">
-    <h3 style="color:#34d399;">💸 RÚT TIỀN NHIỆM VỤ (VND)</h3>
+    <h3 style="color:#34d399;">💸 RÚT TIỀN NHIỆM VỤ (VND THỰC)</h3>
     <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; color:#cbd5e1;">
-      🔹 <b>VND Thực khả dụng:</b> <span id="ref-current-vnd" style="color:#34d399; font-weight:bold;">0đ</span><br>
+      🔹 <b>VND khả dụng:</b> <span id="ref-current-vnd" style="color:#34d399; font-weight:bold;">0đ</span><br>
       🔹 <b>Min rút:</b> <span style="color:#fca5a5;">3.000đ</span>
     </div>
     <input type="text" id="ref-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
@@ -161,9 +161,9 @@
   </div>
 
   <div class="card">
-    <h3>📜 LỊCH SỬ RÚT TIỀN</h3>
-    <div id="withdraw-history" style="max-height: 120px; overflow-y: auto; text-align: left; font-size:0.8rem;">
-      <center><small>Chưa có lịch sử</small></center>
+    <h3>📜 LỊCH SỬ RÚT TIỀN / NHẬN THƯỞNG</h3>
+    <div id="withdraw-history" style="max-height: 150px; overflow-y: auto; text-align: left; font-size:0.8rem;">
+      <center><small>Chưa có dữ liệu</small></center>
     </div>
   </div>
 </div>
@@ -178,7 +178,7 @@
 </div>
 
 <div class="bottom-nav">
-  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.5rem">⛏</div>Đào</div>
+  <div class="nav-item active" onclick="nav('tap', this)"><div style="font-size:1.5rem">⛏</div>Đào Xu</div>
   <div class="nav-item" onclick="nav('task', this)"><div style="font-size:1.5rem">🎯</div>Nhiệm Vụ</div>
   <div class="nav-item" onclick="nav('top', this); loadTop();"><div style="font-size:1.5rem">🏆</div>Đua Top</div>
   <div class="nav-item" onclick="nav('shop', this)"><div style="font-size:1.5rem">🛒</div>Cửa Hàng</div>
@@ -186,7 +186,6 @@
 </div>
 
 <script>
-  // HIỆU ỨNG MƯA ĐỒNG XU
   function createSnowCoin() { 
     const container = document.getElementById('snow-container');
     const c = document.createElement('div'); c.innerHTML = '🪙'; c.className = 'snow-coin'; 
@@ -205,7 +204,6 @@
   } catch(e){}
   document.getElementById('player-name').innerText = tg_name;
 
-  // HÀM MỞ LINK AN TOÀN TRÁNH BỊ CHẶN BỞI WEBVIEW
   function openLinkSafe(url) {
     if(tgWebApp && tgWebApp.openLink) { tgWebApp.openLink(url); } 
     else { window.open(url, '_blank'); }
@@ -299,5 +297,4 @@
   setInterval(() => sendApi('sync'), 60000); sendApi('sync');
 </script>
 </body>
-        </html>
-                  
+</html>
