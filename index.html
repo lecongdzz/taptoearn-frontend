@@ -74,12 +74,29 @@
 </div>
 
 <div id="screen-top" class="screen">
-  <div class="card"><h3>🏆 BẢNG VÀNG</h3><div id="top-list">Đang tải...</div></div>
+  <div class="card"><h3>🏆 TOP 10 ĐẠI GIA</h3><div id="top-list">Đang tải...</div></div>
+</div>
+
+<div id="screen-shop" class="screen">
+  <div class="card">
+    <h3 style="color:#10b981;">🚀 NÂNG CẤP TỐC ĐỘ</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; margin-bottom:15px;">
+      <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp độ:</span><br><span id="machine-lvl" style="color:#34d399; font-weight:bold; font-size:1.3rem;">0</span></div>
+      <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Chi phí:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
+    </div>
+    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+1 Xu/s)</button>
+  </div>
+  <div class="card">
+    <h3>🔄 SÀN GIAO DỊCH VÀNG</h3>
+    <p style="text-align:center; font-size:0.9rem; color:#9ca3af; background:rgba(0,0,0,0.3); padding:10px; border-radius:10px;">Tỷ giá: 100 Xu = 1 Vàng</p>
+    <button class="btn bg-gold" onclick="sendApi('exchange', 'c2g')">Mua Vàng (Tốn 100 Xu)</button>
+    <button class="btn" style="background:#374151; margin-top:10px;" onclick="sendApi('exchange', 'g2c')">Bán Vàng (Nhận 100 Xu)</button>
+  </div>
 </div>
 
 <div id="screen-bank" class="screen">
   <div class="card">
-    <h3>🏦 RÚT TIỀN XU ĐÀO</h3>
+    <h3 style="color:#fca5a5;">🏦 RÚT TIỀN XU ĐÀO</h3>
     <input type="text" id="wd-bank" placeholder="Ngân Hàng (VD: MB)">
     <input type="number" id="wd-stk" placeholder="Số Tài Khoản">
     <input type="text" id="wd-name" placeholder="Tên Chủ Thẻ (IN HOA)">
@@ -113,6 +130,7 @@
   <div class="nav-item active" onclick="nav('tap', this)"><span>⛏</span>Trang Chủ</div>
   <div class="nav-item" onclick="nav('task', this)"><span>🎯</span>Nhiệm Vụ</div>
   <div class="nav-item" onclick="nav('top', this); loadTop();"><span>🏆</span>Đua Top</div>
+  <div class="nav-item" onclick="nav('shop', this)"><span>🛒</span>Cửa Hàng</div>
   <div class="nav-item" onclick="nav('bank', this)"><span>🏦</span>Rút Tiền</div>
 </div>
 
@@ -143,10 +161,10 @@
     document.getElementById('ref-coin').innerText = (data.ref_coin||0).toLocaleString('vi-VN').replace(/,/g, '.');
     document.getElementById('energy-bar').style.width = (data.energy/10) + "%";
     document.getElementById('energy-val').innerText = Math.floor(data.energy);
+    document.getElementById('machine-lvl').innerText = data.machine_lvl || 0;
     
     if(data.history) {
-      let h = ""; 
-      let items = data.history.split('|').filter(i => i.trim() !== "");
+      let h = ""; let items = data.history.split('|').filter(i => i.trim() !== "");
       items.forEach(item => { h += `<div class="hist-item">${item}</div>`; });
       document.getElementById('withdraw-history').innerHTML = h || "<center><small>Chưa có dữ liệu</small></center>";
     }
@@ -157,16 +175,14 @@
       let res = await fetch(API_URL, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({action, tg_id, tg_name, initData, data}) });
       let j = await res.json();
       if(j.requires_link) { document.getElementById('idle-amount-text').innerText = j.idle_amount; document.getElementById('screen-lock').style.display = 'flex'; return; }
-      if(j.success) { updateUI(j.user); if(j.msg) alert("✅ " + j.msg); } 
-      else if (j.error) { alert("❌ " + j.error); }
+      if(j.success) { updateUI(j.user); if(j.msg) alert("✅ " + j.msg); } else if (j.error) { alert("❌ " + j.error); }
     } catch(e) { console.log(e); }
   }
 
   function withdraw(type) {
     let prefix = type === 'withdraw' ? 'wd' : 'ref';
     let b = document.getElementById(`${prefix}-bank`).value, s = document.getElementById(`${prefix}-stk`).value, n = document.getElementById(`${prefix}-name`).value, a = document.getElementById(`${prefix}-amt`).value;
-    if(!b || !s || !n || !a) return alert("Nhập đủ thông tin!");
-    sendApi(type, {bank:b, stk:s, name:n, amount:a});
+    if(!b || !s || !n || !a) return alert("Nhập đủ thông tin!"); sendApi(type, {bank:b, stk:s, name:n, amount:a});
   }
 
   function loadTop() {
@@ -188,16 +204,10 @@
   }
 
   document.getElementById('coin').onclick = () => {
-    let b = parseInt(document.getElementById('balance').innerText.replace(/\./g,''));
-    let e = parseInt(document.getElementById('energy-val').innerText);
+    let b = parseInt(document.getElementById('balance').innerText.replace(/\./g,'')); let e = parseInt(document.getElementById('energy-val').innerText);
     if(e > 0) { b++; e--; updateUI({balance:b, energy:e}); sendApi('tap', {taps:1}); }
   };
-  
-  function copyRef() { 
-    let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy"); 
-    alert("Đã copy Link!"); 
-  }
-  
+  function copyRef() { let input = document.getElementById('ref-link'); input.select(); document.execCommand("copy"); alert("Đã copy Link!"); }
   setInterval(() => sendApi('sync'), 3000); sendApi('sync');
 </script>
 </body>
