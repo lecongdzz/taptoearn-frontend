@@ -61,46 +61,44 @@
   <div class="coin-btn" id="coin">$</div>
   
   <div class="speed-box">
-    🚀 Thu nhập: <b style="color:#34d399;" id="speed-text">200.000 Xu / 6 Giờ</b><br>
+    🚀 Tốc độ: <b style="color:#34d399;" id="speed-text">200.000 Xu / 6 Giờ</b><br>
     <div style="margin-top:8px; font-size: 0.8rem; color:#cbd5e1; text-align:left;">
-      Tiến độ tới Min Rút (6 Triệu Xu): <span id="wd-percent" style="float:right;">0%</span>
+      Tới Min Rút (6 Triệu Xu = 3.000đ): <span id="wd-percent" style="float:right;">0%</span>
       <div class="progress-bg"><div class="progress-fill" id="wd-progress"></div></div>
     </div>
   </div>
 
-  <div style="margin-top:20px;"><button class="btn bg-green" onclick="claimIdle()" style="padding: 8px 20px; font-size:0.9rem; border-radius:20px;">📦 LẤY XU VÀO KHO SAU 6H</button></div>
+  <div style="margin-top:20px;"><button class="btn bg-green" onclick="claimIdle()" style="padding: 8px 20px; font-size:0.9rem; border-radius:20px;">📦 LẤY XU VÀO KHO</button></div>
 </div>
 
 <div id="screen-task" class="screen">
   <div class="card" style="border: 1px solid #fbbf24;">
     <h3>🎯 NHIỆM VỤ HẰNG NGÀY</h3>
-    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong hãy đóng App, ra ngoài Bot gõ <code>/baocao [Tên Job]</code></p>
+    <p style="font-size:0.8rem; color:#9ca3af; text-align:center; margin-top:0;">Làm xong hãy đóng Game, về Bot gõ <code>/baocao [Tên Job]</code></p>
     
     <div class="job-item">
       <div class="job-title">1. Nhiệm vụ link đối tác</div>
-      💰 Thưởng: <b style="color:#fbbf24;">100đ + 50.000 Xu</b> (Còn 1/1 lượt)<br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link (Ngoài Trình Duyệt)</button>
+      💰 Thưởng: <b style="color:#fbbf24;">100đ + 50.000 Xu</b><br>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link Khảo Sát</button>
     </div>
     
     <div class="job-item">
       <div class="job-title">2. Khảo sát nội bộ</div>
-      💰 Thưởng: <b style="color:#fbbf24;">150đ + 80.000 Xu</b> (Còn 1/1 lượt)<br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/rv/20254tl_tm.key')">🔗 Mở Link (Ngoài Trình Duyệt)</button>
+      💰 Thưởng: <b style="color:#fbbf24;">150đ + 80.000 Xu</b><br>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/rv/20254tl_tm.key')">🔗 Mở Link Khảo Sát</button>
     </div>
     
     <div class="job-item">
-      <div class="job-title">3. Tải app và phản hồi nội bộ</div>
-      💰 Thưởng: <b style="color:#fbbf24;">500đ</b> (Còn 1/1 lượt)<br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.ap')">🔗 Mở Link (Ngoài Trình Duyệt)</button>
+      <div class="job-title">3. Tải App / Phản hồi nội bộ</div>
+      💰 Thưởng: <b style="color:#fbbf24;">500đ</b><br>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.ap')">🔗 Mở Link Cài App</button>
     </div>
 
     <div class="job-item">
-      <div class="job-title">4. Nhiệm vụ đánh giá (Tân thủ)</div>
-      💰 Thưởng: <b style="color:#fbbf24;">100đ + 100.000 Xu</b> (Cho người mời)<br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka')">🔗 Mở Link (Ngoài Trình Duyệt)</button>
+      <div class="job-title">4. Đánh giá hệ thống (Tân thủ)</div>
+      💰 Thưởng: <b style="color:#fbbf24;">2.000đ</b><br>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka')">🔗 Mở Link Đánh Giá</button>
     </div>
-    
-    <button class="btn bg-purple" onclick="alert('ĐỂ TRÁNH LỖI TRẮNG TRANG HOẶC MẤT TIỀN:\n1. Đóng màn hình Mini App này lại.\n2. Ở ngoài phần chat của Bot Telegram, bấm nút [📝 BÁO CÁO HOÀN THÀNH]\n3. Gõ lệnh: /baocao [Tên nhiệm vụ bạn đã làm]')">📝 Hướng Dẫn Báo Cáo</button>
   </div>
 </div>
 
@@ -112,14 +110,21 @@
 </div>
 
 <div id="screen-shop" class="screen">
+  <div class="card" style="border: 1px dashed #fbbf24;">
+    <h3>🎁 NHẬP GIFTCODE</h3>
+    <input type="text" id="giftcode-input" placeholder="Dán mã quà tặng vào đây...">
+    <button class="btn bg-purple" onclick="sendApi('giftcode', document.getElementById('giftcode-input').value)">XÁC NHẬN MÃ CODE</button>
+  </div>
+
   <div class="card">
     <h3 style="color:#10b981;">🚀 NÂNG CẤP MÁY ĐÀO</h3>
     <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; margin-bottom:15px;">
       <div><span style="color:#9ca3af; font-size:0.9rem;">Cấp hiện tại:</span><br><span id="machine-lvl" style="color:#34d399; font-weight:bold; font-size:1.3rem;">Lv 1</span></div>
       <div style="text-align:right;"><span style="color:#9ca3af; font-size:0.9rem;">Phí lên cấp:</span><br><span style="color:#fbbf24; font-weight:bold; font-size:1.1rem;">100 Vàng</span></div>
     </div>
-    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50.000 Xu/6h)</button>
+    <button class="btn bg-green" onclick="sendApi('buy_machine')">Nâng Cấp (+50k Xu/6h)</button>
   </div>
+  
   <div class="card">
     <h3>🔄 SÀN ĐỔI VÀNG</h3>
     <p style="text-align:center; font-size:0.9rem; color:#9ca3af; background:rgba(0,0,0,0.3); padding:10px; border-radius:10px;">Tỷ giá: 100.000 Xu = 100 Vàng</p>
@@ -128,28 +133,37 @@
 </div>
 
 <div id="screen-bank" class="screen">
-  <div class="card">
-    <h3 style="color:#fca5a5;">🏦 ĐƠN RÚT TIỀN</h3>
-    <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 0.85rem; color:#cbd5e1;">
-      🔹 <b>Số Xu hiện có:</b> <span id="wd-current-xu" style="color:#fbbf24; font-weight:bold;">0</span><br>
-      🔹 <b>Min rút:</b> <span style="color:#fca5a5;">6.000.000 Xu = 3.000đ</span><br>
-      🔹 <b>Phí giao dịch:</b> 0%
+  <div class="card" style="border-color:#fbbf24;">
+    <h3 style="color:#fbbf24;">🏦 RÚT TIỀN ĐÀO (XU)</h3>
+    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; color:#cbd5e1;">
+      🔹 <b>Xu khả dụng:</b> <span id="wd-current-xu" style="color:#fbbf24; font-weight:bold;">0</span><br>
+      🔹 <b>Min rút:</b> <span style="color:#fca5a5;">6.000.000 Xu = 3.000đ</span>
     </div>
-    
     <input type="text" id="wd-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
     <input type="number" id="wd-stk" placeholder="Số Tài Khoản / SĐT">
     <input type="text" id="wd-name" placeholder="Tên Chủ Tài Khoản (IN HOA)">
-    <input type="number" id="wd-amt" placeholder="Số Xu muốn rút (Tối thiểu 6.000.000)" oninput="calcWd()">
-    
-    <div style="text-align:center; margin-top:10px; font-size:0.9rem;">
-      Thực nhận dự kiến: <b style="color:#34d399; font-size: 1.3rem;" id="wd-expect">0đ</b>
-    </div>
-    <button class="btn bg-gold" onclick="withdraw()">Gửi Yêu Cầu Cho Admin</button>
+    <input type="number" id="wd-amt" placeholder="Số Xu rút (Tối thiểu 6.000.000)" oninput="calcWd()">
+    <div style="text-align:center; margin-top:5px; font-size:0.9rem;">Thực nhận dự kiến: <b style="color:#34d399;" id="wd-expect">0đ</b></div>
+    <button class="btn bg-gold" onclick="withdraw('withdraw')">Gửi Lệnh Rút Xu</button>
   </div>
+
+  <div class="card" style="border-color:#34d399;">
+    <h3 style="color:#34d399;">💸 RÚT TIỀN NHIỆM VỤ (VND)</h3>
+    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; color:#cbd5e1;">
+      🔹 <b>VND Thực khả dụng:</b> <span id="ref-current-vnd" style="color:#34d399; font-weight:bold;">0đ</span><br>
+      🔹 <b>Min rút:</b> <span style="color:#fca5a5;">3.000đ</span>
+    </div>
+    <input type="text" id="ref-bank" placeholder="Ngân Hàng / Momo / ZaloPay">
+    <input type="number" id="ref-stk" placeholder="Số Tài Khoản / SĐT">
+    <input type="text" id="ref-name" placeholder="Tên Chủ Tài Khoản (IN HOA)">
+    <input type="number" id="ref-amt" placeholder="Số VND rút (Tối thiểu 3000)">
+    <button class="btn bg-green" onclick="withdraw('withdraw_ref')">Gửi Lệnh Rút VND</button>
+  </div>
+
   <div class="card">
     <h3>📜 LỊCH SỬ RÚT TIỀN</h3>
     <div id="withdraw-history" style="max-height: 120px; overflow-y: auto; text-align: left; font-size:0.8rem;">
-      <center><small>Chưa có dữ liệu</small></center>
+      <center><small>Chưa có lịch sử</small></center>
     </div>
   </div>
 </div>
@@ -157,7 +171,7 @@
 <div id="screen-lock" class="screen" style="z-index:999; background:rgba(15,23,42,0.98); justify-content:center; position:fixed; top:0; left:0;">
   <div class="card" style="border-color:#10b981; box-shadow: 0 0 30px rgba(16,185,129,0.2);">
     <h3 style="font-size:1.5rem; color:#34d399; text-align:center;">KHO XU ĐÃ ĐẦY!</h3>
-    <p style="text-align:center; color:#9ca3af; margin-bottom:5px;">Bạn đã đào được tối đa 6h, nhận được:</p>
+    <p style="text-align:center; color:#9ca3af; margin-bottom:5px;">Đã đủ 6 tiếng đào tự động, bạn có:</p>
     <p style="text-align:center; margin: 0;"><b style="color:#fbbf24; font-size:3rem;">+<span id="idle-amount-text">0</span> Xu</b></p>
     <button class="btn bg-green" style="margin-top:20px;" onclick="claimIdle()">✅ Lấy Xu Cất Kho & Đào Tiếp</button>
   </div>
@@ -172,7 +186,7 @@
 </div>
 
 <script>
-  // HIỆU ỨNG MƯA
+  // HIỆU ỨNG MƯA ĐỒNG XU
   function createSnowCoin() { 
     const container = document.getElementById('snow-container');
     const c = document.createElement('div'); c.innerHTML = '🪙'; c.className = 'snow-coin'; 
@@ -191,9 +205,9 @@
   } catch(e){}
   document.getElementById('player-name').innerText = tg_name;
 
-  // FIX LỖI TRẮNG TRANG: MỞ BẰNG TRÌNH DUYỆT NGOÀI CỦA ĐIỆN THOẠI
+  // HÀM MỞ LINK AN TOÀN TRÁNH BỊ CHẶN BỞI WEBVIEW
   function openLinkSafe(url) {
-    if(tgWebApp && tgWebApp.openLink) { tgWebApp.openLink(url, {try_instant_view: false}); } 
+    if(tgWebApp && tgWebApp.openLink) { tgWebApp.openLink(url); } 
     else { window.open(url, '_blank'); }
   }
 
@@ -203,12 +217,11 @@
     document.getElementById('screen-' + id).classList.add('active'); el.classList.add('active');
   }
 
-  let current_rate = 200000;
-  let current_bal = 0;
+  let current_rate = 200000; let current_bal = 0;
 
   function calcWd() {
     let amt = parseInt(document.getElementById('wd-amt').value) || 0;
-    let vnd = Math.floor(amt / 2000); // 6M xu = 3000đ -> 1đ = 2000 xu
+    let vnd = Math.floor(amt / 2000); 
     document.getElementById('wd-expect').innerText = vnd.toLocaleString('vi-VN') + "đ";
   }
 
@@ -217,7 +230,10 @@
     document.getElementById('balance').innerText = current_bal.toLocaleString('vi-VN').replace(/,/g, '.');
     document.getElementById('wd-current-xu').innerText = current_bal.toLocaleString('vi-VN').replace(/,/g, '.');
     document.getElementById('gold-bal').innerText = (data.gold||0).toLocaleString('vi-VN').replace(/,/g, '.');
-    document.getElementById('vnd-bal').innerText = (data.vnd||0).toLocaleString('vi-VN').replace(/,/g, '.') + "đ";
+    
+    let vndStr = (data.vnd||0).toLocaleString('vi-VN').replace(/,/g, '.') + "đ";
+    document.getElementById('vnd-bal').innerText = vndStr;
+    document.getElementById('ref-current-vnd').innerText = vndStr;
     
     let lvl = data.machine_lvl || 1;
     current_rate = data.rate || 200000;
@@ -225,7 +241,6 @@
     document.getElementById('machine-lvl').innerText = "Lv " + lvl;
     document.getElementById('speed-text').innerText = `${current_rate.toLocaleString('vi-VN').replace(/,/g, '.')} Xu / 6 Giờ`;
     
-    // TIẾN ĐỘ MIN RÚT (6 TRIỆU XU)
     let percent = Math.min((current_bal / 6000000) * 100, 100);
     document.getElementById('wd-percent').innerText = percent.toFixed(1) + "%";
     document.getElementById('wd-progress').style.width = percent + "%";
@@ -250,9 +265,10 @@
     } catch(e) {}
   }
 
-  function withdraw() {
-    let b = document.getElementById(`wd-bank`).value, s = document.getElementById(`wd-stk`).value, n = document.getElementById(`wd-name`).value, a = document.getElementById(`wd-amt`).value;
-    if(!b || !s || !n || !a) return alert("Nhập đủ thông tin!"); sendApi('withdraw', {bank:b, stk:s, name:n, amount:a});
+  function withdraw(type) {
+    let prefix = type === 'withdraw' ? 'wd' : 'ref';
+    let b = document.getElementById(`${prefix}-bank`).value, s = document.getElementById(`${prefix}-stk`).value, n = document.getElementById(`${prefix}-name`).value, a = document.getElementById(`${prefix}-amt`).value;
+    if(!b || !s || !n || !a) return alert("Nhập đủ thông tin!"); sendApi(type, {bank:b, stk:s, name:n, amount:a});
   }
 
   function loadTop() {
@@ -269,13 +285,11 @@
 
   function claimIdle() { document.getElementById('screen-lock').style.display = 'none'; sendApi("claim_idle"); }
 
-  // CHỈ CÓ HIỆU ỨNG KHI BẤM COIN (Không cộng tay)
   document.getElementById('coin').onclick = (e) => {
     let sc = document.createElement('div'); sc.innerHTML = '🪙'; sc.style.position = 'absolute'; sc.style.left = e.clientX + 'px'; sc.style.top = e.clientY + 'px'; sc.style.fontSize = '2rem'; sc.style.pointerEvents = 'none'; sc.style.animation = 'fall 1s linear forwards'; document.body.appendChild(sc); setTimeout(() => sc.remove(), 1000);
     try { tgWebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
   };
   
-  // TỰ NHẢY TIỀN THEO LUẬT 6H
   setInterval(() => {
     let xu_per_sec = current_rate / 21600;
     current_bal += xu_per_sec;
