@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hệ Thống Đào Coin V13</title>
+<title>Hệ Thống Đào Coin V14</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -63,7 +63,7 @@
   
   <div class="speed-box">
     🚀 Tốc độ: <b style="color:#34d399;" id="speed-text">200.000 Xu / 6 Giờ</b><br>
-    <div id="job-warning" style="color:#ef4444; font-weight:bold; display:none; margin-top:5px;">⚠️ ĐÃ QUÁ 24H KHÔNG LÀM JOB! MÁY ĐÀO BỊ KHÓA!</div>
+    <div id="job-warning" style="color:#ef4444; font-weight:bold; display:none; margin-top:5px;">⚠️ ĐÃ QUÁ 24H! HÃY LÀM JOB ĐỂ ĐÀO TIẾP!</div>
     <div style="margin-top:8px; font-size: 0.8rem; color:#cbd5e1; text-align:left;">
       Tới Min Rút Đào (6 Triệu Xu = 3.000đ): <span id="wd-percent" style="float:right;">0%</span>
       <div class="progress-bg"><div class="progress-fill" id="wd-progress"></div></div>
@@ -78,7 +78,7 @@
     <h3 style="color:#60a5fa;">🤝 MỜI BẠN BÈ TÂN THỦ</h3>
     <div style="font-size:0.85rem; background:rgba(59,130,246,0.1); padding:10px; border-radius:8px; margin-bottom:10px; color:#93c5fd;">
       📌 <b>Lưu ý:</b> Bạn bè phải bấm Start, làm nhiệm vụ và Admin duyệt thì bạn mới có tiền!<br>
-      🎁 Thưởng: <b style="color:#fbbf24;">+200.000 Xu & +1.000đ</b> / Lượt.
+      🎁 Thưởng: <b style="color:#fbbf24;">+200.000 Xu</b> / Lượt thành công.
     </div>
     
     <div class="stats-box" style="background:rgba(0,0,0,0.3); border:none; margin-bottom:10px;">
@@ -98,7 +98,7 @@
     <div class="job-item">
       <div class="job-title">1. Nhiệm vụ link đối tác</div>
       💰 Thưởng: <b style="color:#fbbf24;">100đ + 50.000 Xu</b><br>
-      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link Nhiệm Vụ</button>
+      <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://linktot.net/20254tl_tr.tr')">🔗 Mở Link Khảo Sát</button>
     </div>
     
     <div class="job-item">
@@ -118,8 +118,6 @@
       💰 Thưởng: <b style="color:#fbbf24;">2.000đ</b><br>
       <button class="btn bg-blue" style="padding:8px; font-size:0.8rem;" onclick="openLinkSafe('https://sanlink247.com/s/danh-gia-5-saoz1u1cuzmnycu9ka')">🔗 Mở Link Đánh Giá</button>
     </div>
-    
-    <button class="btn bg-green" onclick="alert('Hãy ĐÓNG ỨNG DỤNG NÀY.\nRa ngoài khung chat với Bot Telegram.\nGõ lệnh: /baocao [Tên nhiệm vụ vừa làm]')">📝 Hướng Dẫn Báo Cáo</button>
   </div>
 </div>
 
@@ -231,7 +229,6 @@
   document.getElementById('player-name').innerText = tg_name;
   document.getElementById('ref-link').value = "https://t.me/BotCuaSep_bot?start=ref_" + tg_id;
 
-  // CHUẨN HOÁ MỞ LINK NGOÀI TRÌNH DUYỆT (KHÔNG BỊ TRẮNG TRANG)
   function openLinkSafe(url) {
     if(tgWebApp && tgWebApp.openLink) { tgWebApp.openLink(url); } 
     else { window.open(url, '_blank'); }
@@ -274,13 +271,10 @@
     document.getElementById('wd-percent').innerText = percent.toFixed(1) + "%";
     document.getElementById('wd-progress').style.width = percent + "%";
 
-    // KHÓA 24H NẾU KHÔNG LÀM JOB
+    // KHÓA JOB 24H
     is_locked_job = data.needs_job || false;
-    if(is_locked_job) {
-      document.getElementById('job-warning').style.display = 'block';
-    } else {
-      document.getElementById('job-warning').style.display = 'none';
-    }
+    if(is_locked_job) { document.getElementById('job-warning').style.display = 'block'; } 
+    else { document.getElementById('job-warning').style.display = 'none'; }
 
     if(data.history) {
       let h = ""; let items = data.history.split('|').filter(i => i.trim() !== "");
@@ -332,7 +326,6 @@
     try { tgWebApp.HapticFeedback.impactOccurred('medium'); } catch(err){}
   };
   
-  // TỰ NHẢY TIỀN THEO GIÂY (NẾU KHÔNG BỊ KHÓA 24H)
   setInterval(() => {
     if(!is_locked_job) {
       let xu_per_sec = current_rate / 21600; 
